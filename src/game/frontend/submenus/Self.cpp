@@ -128,6 +128,7 @@ namespace YimMenu::Submenus
 		auto globalsGroup  = std::make_shared<Group>("Globals");
 		auto movementGroup = std::make_shared<Group>("Movement");
 		auto toolsGroup    = std::make_shared<Group>("Tools");
+		auto customGroup   = std::make_shared<Group>("Customization");
 
 		globalsGroup->AddItem(std::make_shared<BoolCommandItem>("godmode"_J));
 		globalsGroup->AddItem(std::make_shared<BoolCommandItem>("neverwanted"_J));
@@ -180,9 +181,16 @@ namespace YimMenu::Submenus
 		movementGroup->AddItem(std::make_shared<BoolCommandItem>("freecam"_J));
 		movementGroup->AddItem(std::make_shared<ConditionalItem>("freecam"_J, std::make_shared<FloatCommandItem>("freecamspeed"_J)));
 
+		// Creative player customization
+		customGroup->AddItem(std::make_shared<BoolCommandItem>("glowingplayer"_J));
+		customGroup->AddItem(std::make_shared<ImGuiItem>([] {
+			ImGui::TextWrapped("Make yourself glow with a warm golden light!");
+		}));
+
 		main->AddItem(globalsGroup);
 		main->AddItem(toolsGroup);
 		main->AddItem(movementGroup);
+		main->AddItem(customGroup);
 		AddCategory(std::move(main));
 
 		auto weapons             = std::make_shared<Category>("Weapons");
@@ -199,6 +207,8 @@ namespace YimMenu::Submenus
 
 		auto horse             = std::make_shared<Category>("Horse");
 		auto horseGlobalsGroup = std::make_shared<Group>("Globals");
+		auto horseCustomGroup = std::make_shared<Group>("Customization");
+
 		horseGlobalsGroup->AddItem(std::make_shared<BoolCommandItem>("horsegodmode"_J));
 		horseGlobalsGroup->AddItem(std::make_shared<BoolCommandItem>("horsenoragdoll"_J));
 		horseGlobalsGroup->AddItem(std::make_shared<BoolCommandItem>("horsesuperrun"_J));
@@ -218,12 +228,22 @@ namespace YimMenu::Submenus
 					YimMenu::Self::GetMount().SetScale(horseScale);
 				});
 		}));
+
+		// Creative customization features
+		horseCustomGroup->AddItem(std::make_shared<BoolCommandItem>("rainbowhorse"_J));
+		horseCustomGroup->AddItem(std::make_shared<IntCommandItem>("customhorsecolor"_J));
+		horseCustomGroup->AddItem(std::make_shared<ImGuiItem>([] {
+			ImGui::TextWrapped("Color Guide: 0=Red, 6=Orange, 24=Yellow, 66=Green, 73=Cyan, 67=Blue, 49=Purple, 71=Pink");
+		}));
+
 		horse->AddItem(horseGlobalsGroup);
+		horse->AddItem(horseCustomGroup);
 		AddCategory(std::move(horse));
 
 		auto vehicle             = std::make_shared<Category>("Vehicle");
 		auto vehicleGlobalsGroup = std::make_shared<Group>("Globals");
 		auto vehicleFunGroup     = std::make_shared<Group>("Fun");
+		auto vehicleCustomGroup  = std::make_shared<Group>("Customization");
 
 		vehicleGlobalsGroup->AddItem(std::make_shared<BoolCommandItem>("vehiclegodmode"_J));
 		vehicleGlobalsGroup->AddItem(std::make_shared<BoolCommandItem>("vehiclenodetach"_J));
@@ -234,8 +254,13 @@ namespace YimMenu::Submenus
 		vehicleFunGroup->AddItem(std::make_shared<ConditionalItem>("superdrive"_J, std::make_shared<BoolCommandItem>("superdrivedirectional"_J, "Directional")));
 		vehicleFunGroup->AddItem(std::make_shared<ConditionalItem>("superdrive"_J, std::make_shared<IntCommandItem>("superdriveforce"_J, "Force")));
 		vehicleFunGroup->AddItem(std::make_shared<BoolCommandItem>("superbrake"_J));
+
+		// Creative customization features
+		vehicleCustomGroup->AddItem(std::make_shared<BoolCommandItem>("rainbowvehicle"_J));
+
 		vehicle->AddItem(vehicleGlobalsGroup);
 		vehicle->AddItem(vehicleFunGroup);
+		vehicle->AddItem(vehicleCustomGroup);
 		AddCategory(std::move(vehicle));
 
 		auto animations = std::make_shared<Category>("Animations");
