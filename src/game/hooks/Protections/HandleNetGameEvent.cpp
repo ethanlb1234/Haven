@@ -117,6 +117,18 @@ namespace YimMenu::Hooks
 
 		if (type == NetEventType::EXPLOSION_EVENT && sourcePlayer)
 		{
+			// Rate limit explosion events to prevent spam crashes
+			if (Player(sourcePlayer).IsValid() && Player(sourcePlayer).GetData().m_ExplosionFloodLimit.Process() && Features::_BlockEventFlooding.GetState())
+			{
+				if (Player(sourcePlayer).GetData().m_ExplosionFloodLimit.ExceededLastProcess())
+				{
+					LOG(WARNING) << "Blocked explosion flood spam attack from " << sourcePlayer->GetName();
+					Player(sourcePlayer).AddDetection(Detection::TRIED_CRASH_PLAYER);
+				}
+				Pointers.SendEventAck(eventMgr, nullptr, sourcePlayer, targetPlayer, index, handledBits);
+				return;
+			}
+
 			if (Features::_BlockExplosions.GetState()
 			    || (Player(sourcePlayer).IsValid() && Player(sourcePlayer).GetData().m_BlockExplosions))
 			{
@@ -128,6 +140,18 @@ namespace YimMenu::Hooks
 
 		if (type == NetEventType::NETWORK_PTFX_EVENT && sourcePlayer)
 		{
+			// Rate limit particle effects to prevent spam crashes
+			if (Player(sourcePlayer).IsValid() && Player(sourcePlayer).GetData().m_ParticleFloodLimit.Process() && Features::_BlockEventFlooding.GetState())
+			{
+				if (Player(sourcePlayer).GetData().m_ParticleFloodLimit.ExceededLastProcess())
+				{
+					LOG(WARNING) << "Blocked particle flood spam attack from " << sourcePlayer->GetName();
+					Player(sourcePlayer).AddDetection(Detection::TRIED_CRASH_PLAYER);
+				}
+				Pointers.SendEventAck(eventMgr, nullptr, sourcePlayer, targetPlayer, index, handledBits);
+				return;
+			}
+
 			if (Features::_BlockPtfx.GetState() || (Player(sourcePlayer).IsValid() && Player(sourcePlayer).GetData().m_BlockParticles))
 			{
 				LOG(WARNING) << "Blocked particle effects from " << sourcePlayer->GetName();

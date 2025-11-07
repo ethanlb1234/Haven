@@ -55,6 +55,10 @@ namespace YimMenu::Features
 	BoolCommand _BlockVehicleFlooding("blockvehflood", "Block Vehicle Flooding", "Prevents modders from creating too many vehicles", true);
 
 	BoolCommand _BlockGhostPeds("blockghostpeds", "Block Ghost Peds", "Blocks creation of ghost peds that are seemingly created due to a game bug", true);
+
+	// Enhanced anti-spam protections
+	BoolCommand _BlockEntityFlooding("blockentityflood", "Block Entity Flooding", "Prevents modders from spam crashing you with entities", true);
+	BoolCommand _BlockEventFlooding("blockeventflood", "Block Event Flooding", "Prevents modders from spam crashing you with network events", true);
 }
 
 namespace
@@ -218,6 +222,17 @@ namespace
 				data.m_BannedPed = true; // blocking this seems difficult
 				return true;
 			}
+
+			// Rate limit ped spawning to prevent spam crashes
+			if (Protections::GetSyncingPlayer().GetData().m_PedFloodLimit.Process() && Features::_BlockEntityFlooding.GetState())
+			{
+				if (Protections::GetSyncingPlayer().GetData().m_PedFloodLimit.ExceededLastProcess())
+				{
+					SyncBlocked("ped flood spam attack");
+					Protections::GetSyncingPlayer().AddDetection(Detection::TRIED_CRASH_PLAYER);
+				}
+				return true;
+			}
 			break;
 		}
 		case "CAnimalCreationNode"_J:
@@ -236,6 +251,17 @@ namespace
 				// block ghost peds
 				if (object)
 					DeleteSyncObject(object->m_ObjectId);
+				return true;
+			}
+
+			// Rate limit animal spawning to prevent spam crashes
+			if (Protections::GetSyncingPlayer().GetData().m_AnimalFloodLimit.Process() && Features::_BlockEntityFlooding.GetState())
+			{
+				if (Protections::GetSyncingPlayer().GetData().m_AnimalFloodLimit.ExceededLastProcess())
+				{
+					SyncBlocked("animal flood spam attack");
+					Protections::GetSyncingPlayer().AddDetection(Detection::TRIED_CRASH_PLAYER);
+				}
 				return true;
 			}
 			break;
@@ -260,6 +286,17 @@ namespace
 				if (object)
 					DeleteSyncObject(object->m_ObjectId);
 				SyncBlocked("cage spawn", GetObjectCreator(object));
+				return true;
+			}
+
+			// Rate limit object spawning to prevent spam crashes
+			if (Protections::GetSyncingPlayer().GetData().m_ObjectFloodLimit.Process() && Features::_BlockEntityFlooding.GetState())
+			{
+				if (Protections::GetSyncingPlayer().GetData().m_ObjectFloodLimit.ExceededLastProcess())
+				{
+					SyncBlocked("object flood spam attack");
+					Protections::GetSyncingPlayer().AddDetection(Detection::TRIED_CRASH_PLAYER);
+				}
 				return true;
 			}
 
@@ -459,6 +496,17 @@ namespace
 				Protections::GetSyncingPlayer().AddDetection(Detection::TRIED_CRASH_PLAYER);
 				return true;
 			}
+
+			// Rate limit projectile spawning to prevent spam crashes
+			if (Protections::GetSyncingPlayer().GetData().m_ProjectileFloodLimit.Process() && Features::_BlockEntityFlooding.GetState())
+			{
+				if (Protections::GetSyncingPlayer().GetData().m_ProjectileFloodLimit.ExceededLastProcess())
+				{
+					SyncBlocked("projectile flood spam attack");
+					Protections::GetSyncingPlayer().AddDetection(Detection::TRIED_CRASH_PLAYER);
+				}
+				return true;
+			}
 			break;
 		}
 		case "CPlayerGameStateUncommonNode"_J:
@@ -520,6 +568,17 @@ namespace
 				LOGF(SYNC, WARNING, "Blocking pickup with invalid hashes (m_PickupHash = 0x{}, m_ModelHash = 0x{}) from {}", data.m_PickupHash, data.m_ModelHash, Protections::GetSyncingPlayer().GetName());
 				SyncBlocked("invalid pickup type crash");
 				Protections::GetSyncingPlayer().AddDetection(Detection::TRIED_CRASH_PLAYER);
+				return true;
+			}
+
+			// Rate limit pickup spawning to prevent spam crashes
+			if (Protections::GetSyncingPlayer().GetData().m_PickupFloodLimit.Process() && Features::_BlockEntityFlooding.GetState())
+			{
+				if (Protections::GetSyncingPlayer().GetData().m_PickupFloodLimit.ExceededLastProcess())
+				{
+					SyncBlocked("pickup flood spam attack");
+					Protections::GetSyncingPlayer().AddDetection(Detection::TRIED_CRASH_PLAYER);
+				}
 				return true;
 			}
 			break;
