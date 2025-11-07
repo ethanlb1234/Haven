@@ -65,72 +65,154 @@ namespace YimMenu
 	{
 		Vector3 PosChange{};
 
-		Vector3 rot = CAM::GET_CAM_ROT(m_Camera, 2);
-		auto pitch = Math::DegToRad(rot.x);
-		float yaw   = Math::DegToRad(rot.z);
+		if (m_CameraMode == CameraMode::TOP_DOWN)
+		{
+			// Top-down Sims-style camera mode
+			// WASD moves in world X/Y, zoom moves Z up/down
 
-		// Forward
-		if (controls.GetMoveForward().IsPressed(MapControl::Subsystem::CAMERA))
-		{
-			PosChange.y += m_Speed;
-		}
-		// Backward
-		if (controls.GetMoveBackward().IsPressed(MapControl::Subsystem::CAMERA))
-		{
-			PosChange.y -= m_Speed;
-		}
-		// Left
-		if (controls.GetMoveLeft().IsPressed(MapControl::Subsystem::CAMERA))
-		{
-			PosChange.x -= m_Speed;
-		}
-		// Right
-		if (controls.GetMoveRight().IsPressed(MapControl::Subsystem::CAMERA))
-		{
-			PosChange.x += m_Speed;
-		}
-		// Zoom In
-		if (controls.GetZoomIn().IsPressed(MapControl::Subsystem::CAMERA))
-		{
-			// move forward AND down
-			PosChange.y += m_Speed * 1.2;
-			PosChange.z += (m_Speed / Math::DegToRad(45)) * pitch;
-		}
-		// Zoom Out
-		if (controls.GetZoomOut().IsPressed(MapControl::Subsystem::CAMERA))
-		{
-			// move backward AND up
-			PosChange.y -= m_Speed * 1.2;
-			PosChange.z -= (m_Speed / Math::DegToRad(45)) * pitch;
-		}
+			// Forward (North)
+			if (controls.GetMoveForward().IsPressed(MapControl::Subsystem::CAMERA))
+			{
+				PosChange.y += m_Speed;
+			}
+			// Backward (South)
+			if (controls.GetMoveBackward().IsPressed(MapControl::Subsystem::CAMERA))
+			{
+				PosChange.y -= m_Speed;
+			}
+			// Left (West)
+			if (controls.GetMoveLeft().IsPressed(MapControl::Subsystem::CAMERA))
+			{
+				PosChange.x -= m_Speed;
+			}
+			// Right (East)
+			if (controls.GetMoveRight().IsPressed(MapControl::Subsystem::CAMERA))
+			{
+				PosChange.x += m_Speed;
+			}
+			// Zoom In (move camera down/closer to ground)
+			if (controls.GetZoomIn().IsPressed(MapControl::Subsystem::CAMERA))
+			{
+				PosChange.z -= m_Speed * 1.5;
+			}
+			// Zoom Out (move camera up/farther from ground)
+			if (controls.GetZoomOut().IsPressed(MapControl::Subsystem::CAMERA))
+			{
+				PosChange.z += m_Speed * 1.5;
+			}
 
-		if (PosChange.x == 0.0f && PosChange.y == 0.0f && PosChange.z == 0.0f)
-		{
-			m_PanAcceleration = 0.0f;
+			if (PosChange.x == 0.0f && PosChange.y == 0.0f && PosChange.z == 0.0f)
+			{
+				m_PanAcceleration = 0.0f;
+			}
+			else if (m_PanAcceleration < 10)
+			{
+				m_PanAcceleration += 0.15f;
+			}
+
+			float additional_accel = 1;
+			if (controls.GetSpeedUp().IsPressed(MapControl::Subsystem::CAMERA))
+				additional_accel = 2.5;
+
+			// Move directly in world coordinates (no rotation math needed)
+			m_Position.x += PosChange.x * m_PanAcceleration * additional_accel;
+			m_Position.y += PosChange.y * m_PanAcceleration * additional_accel;
+			m_Position.z += PosChange.z * m_PanAcceleration * additional_accel;
+
+			// Keep camera height reasonable
+			if (m_Position.z < 5.0f)
+				m_Position.z = 5.0f;
+			if (m_Position.z > 200.0f)
+				m_Position.z = 200.0f;
+
+			CAM::SET_CAM_COORD(m_Camera, m_Position.x, m_Position.y, m_Position.z);
+			Self::GetPed().SetPosition(m_Position);
+
+			// Lock camera to look straight down (top-down view)
+			m_Rotation.x = -89.0f; // Pitch: -89 degrees (almost straight down)
+			m_Rotation.y = 0.0f;   // Roll: 0
+			m_Rotation.z = 0.0f;   // Yaw: North
+
+			CAM::SET_CAM_ROT(m_Camera, m_Rotation.x, m_Rotation.y, m_Rotation.z, 2);
+			Self::GetPed().SetRotation(m_Rotation);
 		}
-		else if (m_PanAcceleration < 10)
+		else // FREE camera mode (original behavior)
 		{
-			m_PanAcceleration += 0.15f;
+			Vector3 rot = CAM::GET_CAM_ROT(m_Camera, 2);
+			auto pitch = Math::DegToRad(rot.x);
+			float yaw   = Math::DegToRad(rot.z);
+
+			// Forward
+			if (controls.GetMoveForward().IsPressed(MapControl::Subsystem::CAMERA))
+			{
+				PosChange.y += m_Speed;
+			}
+			// Backward
+			if (controls.GetMoveBackward().IsPressed(MapControl::Subsystem::CAMERA))
+			{
+				PosChange.y -= m_Speed;
+			}
+			// Left
+			if (controls.GetMoveLeft().IsPressed(MapControl::Subsystem::CAMERA))
+			{
+				PosChange.x -= m_Speed;
+			}
+			// Right
+			if (controls.GetMoveRight().IsPressed(MapControl::Subsystem::CAMERA))
+			{
+				PosChange.x += m_Speed;
+			}
+			// Zoom In
+			if (controls.GetZoomIn().IsPressed(MapControl::Subsystem::CAMERA))
+			{
+				// move forward AND down
+				PosChange.y += m_Speed * 1.2;
+				PosChange.z += (m_Speed / Math::DegToRad(45)) * pitch;
+			}
+			// Zoom Out
+			if (controls.GetZoomOut().IsPressed(MapControl::Subsystem::CAMERA))
+			{
+				// move backward AND up
+				PosChange.y -= m_Speed * 1.2;
+				PosChange.z -= (m_Speed / Math::DegToRad(45)) * pitch;
+			}
+
+			if (PosChange.x == 0.0f && PosChange.y == 0.0f && PosChange.z == 0.0f)
+			{
+				m_PanAcceleration = 0.0f;
+			}
+			else if (m_PanAcceleration < 10)
+			{
+				m_PanAcceleration += 0.15f;
+			}
+
+			float additional_accel = 1;
+
+			if (controls.GetSpeedUp().IsPressed(MapControl::Subsystem::CAMERA))
+				additional_accel = 2.5;
+
+			m_Position.x += (PosChange.x * cos(yaw) - PosChange.y * sin(yaw)) * m_PanAcceleration * additional_accel;
+			m_Position.y += (PosChange.x * sin(yaw) + PosChange.y * cos(yaw)) * m_PanAcceleration * additional_accel;
+			m_Position.z += PosChange.z * m_PanAcceleration;
+
+			CAM::SET_CAM_COORD(m_Camera, m_Position.x, m_Position.y, m_Position.z);
+			Self::GetPed().SetPosition(m_Position);
+			m_Rotation = CAM::GET_GAMEPLAY_CAM_ROT(2);
+			CAM::SET_CAM_ROT(m_Camera, m_Rotation.x, m_Rotation.y, m_Rotation.z, 2);
+			Self::GetPed().SetRotation(m_Rotation);
 		}
-
-		float additional_accel = 1;
-		
-		if (controls.GetSpeedUp().IsPressed(MapControl::Subsystem::CAMERA))
-			additional_accel = 2.5;
-
-		m_Position.x += (PosChange.x * cos(yaw) - PosChange.y * sin(yaw)) * m_PanAcceleration * additional_accel;
-		m_Position.y += (PosChange.x * sin(yaw) + PosChange.y * cos(yaw)) * m_PanAcceleration * additional_accel;
-		m_Position.z += PosChange.z * m_PanAcceleration;
-
-		CAM::SET_CAM_COORD(m_Camera, m_Position.x, m_Position.y, m_Position.z);
-		Self::GetPed().SetPosition(m_Position);
-		m_Rotation = CAM::GET_GAMEPLAY_CAM_ROT(2);
-		CAM::SET_CAM_ROT(m_Camera, m_Rotation.x, m_Rotation.y, m_Rotation.z, 2);
-		Self::GetPed().SetRotation(m_Rotation);
 	}
 
 	bool MapEditorCustomCamera::IsPlayerMode()
 	{
 		return false; // we don't support that yet
+	}
+
+	void MapEditorCustomCamera::ToggleCameraMode()
+	{
+		if (m_CameraMode == CameraMode::TOP_DOWN)
+			m_CameraMode = CameraMode::FREE;
+		else
+			m_CameraMode = CameraMode::TOP_DOWN;
 	}
 }
