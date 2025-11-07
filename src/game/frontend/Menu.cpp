@@ -40,11 +40,11 @@ namespace YimMenu
 
                 ImGui::SetNextWindowSize(ImVec2((*Pointers.ScreenResX / 3.1), (*Pointers.ScreenResY / 1.5)), ImGuiCond_Once);
 
-                if (ImGui::Begin("Terminus", nullptr, ImGuiWindowFlags_NoDecoration))
+                if (ImGui::Begin("Haven - Peaceful Menu", nullptr, ImGuiWindowFlags_NoDecoration))
                 {
-                    // Set text color to Bright Green
-                    ImGui::PushStyleColor(ImGuiCol_Text, ImVec4(0.0f, 1.0f, 0.0f, 1.0f)); // Bright Green
-                    if (ImGui::Button("Terminus", ImVec2(120, 0)))
+                    // Western crimson red for the title, like a wanted poster
+                    ImGui::PushStyleColor(ImGuiCol_Text, ImVec4(0.90f, 0.25f, 0.18f, 1.0f)); // Western Crimson
+                    if (ImGui::Button("HAVEN", ImVec2(120, 0)))
                     {
                         if (ScriptMgr::CanTick())
                         {
@@ -75,49 +75,52 @@ namespace YimMenu
     {
         ImGuiStyle& style = ImGui::GetStyle();
 
-        // Text colors
-        style.Colors[ImGuiCol_Text] = ImVec4(1.00f, 1.00f, 1.00f, 1.00f); // White
-        style.Colors[ImGuiCol_TextDisabled] = ImVec4(0.50f, 0.50f, 0.50f, 1.00f); // Gray for disabled text
+        // Red Dead Redemption 2 Western Theme
+        // Warm sepia text like old Western wanted posters
+        style.Colors[ImGuiCol_Text] = ImVec4(0.95f, 0.90f, 0.80f, 1.00f); // Warm sepia white
+        style.Colors[ImGuiCol_TextDisabled] = ImVec4(0.60f, 0.55f, 0.45f, 1.00f); // Faded brown
 
-        // Background colors (removed for transparency)
-        style.Colors[ImGuiCol_WindowBg] = ImVec4(0.00f, 0.00f, 0.00f, 0.40f); // Darker alpha for less transparency
-        style.Colors[ImGuiCol_ChildBg] = ImVec4(0.10f, 0.10f, 0.10f, 0.40f); // Slightly lighter dark gray with darker alpha
-        style.Colors[ImGuiCol_PopupBg] = ImVec4(0.00f, 0.00f, 0.00f, 0.80f); // Darker alpha for less transparency
+        // Dark leather/wood backgrounds
+        style.Colors[ImGuiCol_WindowBg] = ImVec4(0.10f, 0.06f, 0.04f, 0.85f); // Dark brown leather
+        style.Colors[ImGuiCol_ChildBg] = ImVec4(0.12f, 0.08f, 0.06f, 0.60f); // Lighter brown wood
+        style.Colors[ImGuiCol_PopupBg] = ImVec4(0.08f, 0.05f, 0.03f, 0.90f); // Very dark leather
 
-        // Border and frame colors
-        style.Colors[ImGuiCol_Border] = ImVec4(0.28f, 0.28f, 0.28f, 0.25f);
-        style.Colors[ImGuiCol_FrameBg] = ImVec4(0.13f, 0.13f, 0.13f, 0.60f); // Darker alpha for less transparency
-        style.Colors[ImGuiCol_FrameBgHovered] = ImVec4(0.00f, 0.48f, 1.00f, 0.60f); // Darker alpha for less transparency
-        style.Colors[ImGuiCol_FrameBgActive] = ImVec4(0.00f, 0.48f, 1.00f, 0.70f); // Darker alpha for less transparency
+        // Crimson/rust borders like RDR2 UI
+        style.Colors[ImGuiCol_Border] = ImVec4(0.60f, 0.15f, 0.10f, 0.50f); // Rust red border
 
-        // Button colors
-        style.Colors[ImGuiCol_Button] = ImVec4(0.13f, 0.13f, 0.13f, 0.60f); // Darker alpha for less transparency
-        style.Colors[ImGuiCol_ButtonHovered] = ImVec4(0.00f, 0.48f, 1.00f, 0.80f); // Darker alpha for less transparency
-        style.Colors[ImGuiCol_ButtonActive] = ImVec4(0.00f, 0.48f, 1.00f, 0.90f); // Darker alpha for less transparency
+        // Frame backgrounds (dark wood)
+        style.Colors[ImGuiCol_FrameBg] = ImVec4(0.15f, 0.10f, 0.08f, 0.70f); // Dark wood
+        style.Colors[ImGuiCol_FrameBgHovered] = ImVec4(0.70f, 0.20f, 0.15f, 0.70f); // Crimson highlight
+        style.Colors[ImGuiCol_FrameBgActive] = ImVec4(0.85f, 0.25f, 0.18f, 0.80f); // Bright crimson
 
-        // Title bar colors
-        style.Colors[ImGuiCol_TitleBg] = ImVec4(0.00f, 0.00f, 0.00f, 0.60f); // Darker alpha for less transparency
-        style.Colors[ImGuiCol_TitleBgActive] = ImVec4(0.10f, 0.10f, 0.10f, 0.60f); // Darker alpha for less transparency
-        style.Colors[ImGuiCol_TitleBgCollapsed] = ImVec4(0.00f, 0.00f, 0.00f, 0.60f); // Darker alpha for less transparency
+        // Button colors (leather with crimson accents)
+        style.Colors[ImGuiCol_Button] = ImVec4(0.20f, 0.12f, 0.10f, 0.70f); // Leather brown
+        style.Colors[ImGuiCol_ButtonHovered] = ImVec4(0.70f, 0.20f, 0.15f, 0.85f); // Crimson hover
+        style.Colors[ImGuiCol_ButtonActive] = ImVec4(0.85f, 0.25f, 0.18f, 0.95f); // Bright crimson press
 
-        // Tab colors
-        style.Colors[ImGuiCol_Tab] = ImVec4(0.13f, 0.13f, 0.13f, 0.60f); // Darker alpha for less transparency
-        style.Colors[ImGuiCol_TabHovered] = ImVec4(0.00f, 0.48f, 1.00f, 0.60f); // Darker alpha for less transparency
-        style.Colors[ImGuiCol_TabActive] = ImVec4(0.13f, 0.13f, 0.13f, 0.80f); // Darker alpha for less transparency
+        // Title bar (dark with gold/brass accent)
+        style.Colors[ImGuiCol_TitleBg] = ImVec4(0.12f, 0.08f, 0.06f, 0.85f); // Dark brown
+        style.Colors[ImGuiCol_TitleBgActive] = ImVec4(0.25f, 0.15f, 0.12f, 0.90f); // Medium brown
+        style.Colors[ImGuiCol_TitleBgCollapsed] = ImVec4(0.10f, 0.06f, 0.04f, 0.80f); // Very dark
 
-        // Header colors
-        style.Colors[ImGuiCol_Header] = ImVec4(0.13f, 0.13f, 0.13f, 0.60f); // Darker alpha for less transparency
-        style.Colors[ImGuiCol_HeaderHovered] = ImVec4(0.00f, 0.48f, 1.00f, 0.80f); // Darker alpha for less transparency
-        style.Colors[ImGuiCol_HeaderActive] = ImVec4(0.00f, 0.48f, 1.00f, 0.90f); // Darker alpha for less transparency
+        // Tab colors (old paper/leather)
+        style.Colors[ImGuiCol_Tab] = ImVec4(0.18f, 0.12f, 0.10f, 0.70f); // Leather tab
+        style.Colors[ImGuiCol_TabHovered] = ImVec4(0.70f, 0.20f, 0.15f, 0.80f); // Crimson hover
+        style.Colors[ImGuiCol_TabActive] = ImVec4(0.60f, 0.18f, 0.13f, 0.90f); // Active crimson
 
-        // Plot colors
-        style.Colors[ImGuiCol_PlotLines] = ImVec4(0.80f, 0.80f, 0.00f, 0.00f);
-        style.Colors[ImGuiCol_PlotLinesHovered] = ImVec4(1.00f, 0.85f, 0.00f, 1.00f);
-        style.Colors[ImGuiCol_PlotHistogram] = ImVec4(0.90f, 0.70f, 0.20f, 1.00f);
-        style.Colors[ImGuiCol_PlotHistogramHovered] = ImVec4(1.00f, 0.80f, 0.40f, 1.00f);
+        // Header colors (table headers like ledger books)
+        style.Colors[ImGuiCol_Header] = ImVec4(0.20f, 0.12f, 0.10f, 0.70f); // Ledger brown
+        style.Colors[ImGuiCol_HeaderHovered] = ImVec4(0.70f, 0.20f, 0.15f, 0.85f); // Crimson highlight
+        style.Colors[ImGuiCol_HeaderActive] = ImVec4(0.85f, 0.25f, 0.18f, 0.95f); // Bright crimson
 
-        // Rounding for smoother UI appearance
-        style.GrabRounding = style.FrameRounding = style.ChildRounding = style.WindowRounding = 10.0f;
+        // Plot colors (warm gold/brass like belt buckles)
+        style.Colors[ImGuiCol_PlotLines] = ImVec4(0.85f, 0.65f, 0.20f, 1.00f); // Gold
+        style.Colors[ImGuiCol_PlotLinesHovered] = ImVec4(0.95f, 0.75f, 0.30f, 1.00f); // Bright gold
+        style.Colors[ImGuiCol_PlotHistogram] = ImVec4(0.80f, 0.55f, 0.15f, 1.00f); // Brass
+        style.Colors[ImGuiCol_PlotHistogramHovered] = ImVec4(0.90f, 0.65f, 0.25f, 1.00f); // Bright brass
+
+        // Slightly sharper corners for that rustic look
+        style.GrabRounding = style.FrameRounding = style.ChildRounding = style.WindowRounding = 6.0f;
     }
 
     void Menu::SetupFonts()
