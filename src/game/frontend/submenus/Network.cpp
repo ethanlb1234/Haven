@@ -94,7 +94,6 @@ namespace YimMenu::Submenus
 		auto database             = std::make_shared<Category>("Player Database");
 		auto sessionSwitcherGroup = std::make_shared<Group>("Session Switcher");
 		auto teleportGroup        = std::make_shared<Group>("Teleport");
-		auto toxicGroup           = std::make_shared<Group>("Toxic");
 		auto miscGroup            = std::make_shared<Group>("Misc");
 
 		sessionSwitcherGroup->AddItem(std::make_shared<Vector3CommandItem>("newsessionpos"_J));
@@ -103,11 +102,9 @@ namespace YimMenu::Submenus
 
 		teleportGroup->AddItem(std::make_shared<CommandItem>("bringall"_J, "Bring All"));
 		teleportGroup->AddItem(std::make_shared<CommandItem>("tpalltowaypoint"_J));
-		teleportGroup->AddItem(std::make_shared<CommandItem>("tpalltojail"_J));
+		// Removed: tpalltojail (griefing feature)
 
-		toxicGroup->AddItem(std::make_shared<CommandItem>("explodeall"_J));
-		toxicGroup->AddItem(std::make_shared<CommandItem>("maxhonorall"_J));
-		toxicGroup->AddItem(std::make_shared<CommandItem>("minhonorall"_J));
+		// Removed entire Toxic group (explodeall, honor manipulation)
 
 		miscGroup->AddItem(std::make_shared<BoolCommandItem>("revealall"_J));
 		miscGroup->AddItem(std::make_shared<BoolCommandItem>("blockalltelemetry"_J));
@@ -115,7 +112,7 @@ namespace YimMenu::Submenus
 
 		session->AddItem(sessionSwitcherGroup);
 		session->AddItem(teleportGroup);
-		session->AddItem(toxicGroup);
+		// Removed: toxicGroup
 		session->AddItem(miscGroup);
 
 		spoofing->AddItem(std::make_shared<BoolCommandItem>("hidegod"_J));
