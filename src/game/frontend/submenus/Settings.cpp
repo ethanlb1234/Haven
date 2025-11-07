@@ -84,6 +84,7 @@ namespace YimMenu::Submenus
         // Overlay
         overlay->AddItem(std::make_shared<BoolCommandItem>("overlay"_J));
         overlay->AddItem(std::make_shared<ConditionalItem>("overlay"_J, std::make_shared<BoolCommandItem>("overlayfps"_J)));
+        overlay->AddItem(std::make_shared<ConditionalItem>("overlay"_J, std::make_shared<BoolCommandItem>("overlayprotections"_J)));
 
         // Context Menu
         context->AddItem(std::make_shared<BoolCommandItem>("ctxmenu"_J));

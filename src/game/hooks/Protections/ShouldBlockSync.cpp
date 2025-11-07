@@ -5,6 +5,7 @@
 #include "game/backend/PlayerData.hpp"
 #include "game/backend/Players.hpp"
 #include "game/backend/Protections.hpp"
+#include "game/backend/ProtectionStats.hpp"
 #include "game/backend/Self.hpp"
 #include "game/hooks/Hooks.hpp"
 #include "game/pointers/Pointers.hpp"
@@ -185,6 +186,10 @@ namespace
 			LOGF(WARNING, "Blocked {} from {}", crash, source.GetName());
 			auto name = source.GetName();
 			Notifications::Show("Protections", std::format("Blocked {} from {}", crash, name), NotificationType::Warning);
+
+			// Record in protection stats
+			if (source.GetHandle() && source.GetHandle()->m_PlayerInfo)
+				ProtectionStats::RecordBlock(source.GetHandle()->m_PlayerInfo->m_GamerInfo->m_PeerId.m_Value, crash);
 		}
 	}
 
