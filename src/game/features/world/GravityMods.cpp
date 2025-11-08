@@ -16,14 +16,14 @@ namespace YimMenu::Features
 		HEAVY
 	};
 
-	static const std::pair<GravityMode, const char*> g_GravityModes[] = {
-		{GravityMode::NORMAL, "Normal (1.0x)"},
-		{GravityMode::LOW, "Low (0.5x)"},
-		{GravityMode::VERY_LOW, "Very Low (0.25x)"},
-		{GravityMode::MOON, "Moon (0.16x)"},
-		{GravityMode::ZERO, "Zero Gravity (0.0x)"},
-		{GravityMode::REVERSE, "Reverse (-1.0x)"},
-		{GravityMode::HEAVY, "Heavy (2.0x)"}
+	static const std::vector<std::pair<int, const char*>> g_GravityModes = {
+		{(int)GravityMode::NORMAL, "Normal (1.0x)"},
+		{(int)GravityMode::LOW, "Low (0.5x)"},
+		{(int)GravityMode::VERY_LOW, "Very Low (0.25x)"},
+		{(int)GravityMode::MOON, "Moon (0.16x)"},
+		{(int)GravityMode::ZERO, "Zero Gravity (0.0x)"},
+		{(int)GravityMode::REVERSE, "Reverse (-1.0x)"},
+		{(int)GravityMode::HEAVY, "Heavy (2.0x)"}
 	};
 
 	static ListCommand _GravityMode{"gravitymode", "Gravity Mode", "Change world gravity", g_GravityModes, (int)GravityMode::NORMAL};
@@ -61,13 +61,15 @@ namespace YimMenu::Features
 			float gravityLevel = GetGravityLevel(mode);
 
 			// Apply gravity modification
-			MISC::SET_GRAVITY_LEVEL(gravityLevel);
+			// TODO: RDR2 doesn't have SET_GRAVITY_LEVEL native - need to find alternative
+			// MISC::SET_GRAVITY_LEVEL(gravityLevel);
 		}
 
 		virtual void OnDisable() override
 		{
 			// Restore normal gravity
-			MISC::SET_GRAVITY_LEVEL(1.0f);
+			// TODO: RDR2 doesn't have SET_GRAVITY_LEVEL native - need to find alternative
+			// MISC::SET_GRAVITY_LEVEL(1.0f);
 		}
 	};
 

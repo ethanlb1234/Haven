@@ -19,17 +19,17 @@ namespace YimMenu::Features
 		SMOKE_TRAIL
 	};
 
-	static const std::pair<ParticleTrailType, const char*> g_ParticleTrails[] = {
-		{ParticleTrailType::NONE, "None"},
-		{ParticleTrailType::BUTTERFLIES, "Butterflies"},
-		{ParticleTrailType::FIREFLIES, "Fireflies"},
-		{ParticleTrailType::SPARKLES, "Sparkles"},
-		{ParticleTrailType::FIRE, "Fire Trail"},
-		{ParticleTrailType::WATER_SPLASH, "Water Droplets"},
-		{ParticleTrailType::SNOW, "Snowflakes"},
-		{ParticleTrailType::FLOWER_PETALS, "Flower Petals"},
-		{ParticleTrailType::MAGIC_SPARKLES, "Magic Sparkles"},
-		{ParticleTrailType::SMOKE_TRAIL, "Smoke Trail"}
+	static const std::vector<std::pair<int, const char*>> g_ParticleTrails = {
+		{(int)ParticleTrailType::NONE, "None"},
+		{(int)ParticleTrailType::BUTTERFLIES, "Butterflies"},
+		{(int)ParticleTrailType::FIREFLIES, "Fireflies"},
+		{(int)ParticleTrailType::SPARKLES, "Sparkles"},
+		{(int)ParticleTrailType::FIRE, "Fire Trail"},
+		{(int)ParticleTrailType::WATER_SPLASH, "Water Droplets"},
+		{(int)ParticleTrailType::SNOW, "Snowflakes"},
+		{(int)ParticleTrailType::FLOWER_PETALS, "Flower Petals"},
+		{(int)ParticleTrailType::MAGIC_SPARKLES, "Magic Sparkles"},
+		{(int)ParticleTrailType::SMOKE_TRAIL, "Smoke Trail"}
 	};
 
 	static ListCommand _ParticleTrail{"particletrail", "Particle Trail", "Leave a trail of particles as you move", g_ParticleTrails, (int)ParticleTrailType::NONE};
@@ -88,8 +88,8 @@ namespace YimMenu::Features
 				return;
 
 			// Request and load particle asset
-			STREAMING::REQUEST_NAMED_PTFX_ASSET(rage::joaat(asset));
-			if (STREAMING::HAS_NAMED_PTFX_ASSET_LOADED(rage::joaat(asset)))
+			STREAMING::REQUEST_NAMED_PTFX_ASSET(asset);
+			if (STREAMING::HAS_NAMED_PTFX_ASSET_LOADED(asset))
 			{
 				GRAPHICS::USE_PARTICLE_FX_ASSET(asset);
 

@@ -23,53 +23,11 @@ jobs:
     - name: Setup MSVC
       uses: ilammy/msvc-dev-cmd@v1
 
-    - name: Patch dependency fetch scripts to fix CMakeLists.txt immediately after download
-      shell: bash
-      run: |
-        # Modify the cmake/*.cmake files to patch dependencies right after FetchContent_Populate
+    - name: Configure CMake
+      run: cmake -B build -DCMAKE_BUILD_TYPE=Release
 
-        # Patch vulkan.cmake
-        cat >> cmake/vulkan.cmake << 'ENDOFFILE'
-
-        # Patch old CMakeLists.txt immediately after population
-        if(EXISTS "$${vulkan_SOURCE_DIR}/CMakeLists.txt")
-          file(READ "$${vulkan_SOURCE_DIR}/CMakeLists.txt" VULKAN_CMAKE)
-          string(REGEX REPLACE "cmake_minimum_required\\\\(VERSION 2\\\\.[0-9]+(\\\\.[0-9]+)?\\\\)" "cmake_minimum_required(VERSION 3.5)" VULKAN_CMAKE "$${VULKAN_CMAKE}")
-          file(WRITE "$${vulkan_SOURCE_DIR}/CMakeLists.txt" "$${VULKAN_CMAKE}")
-          message(STATUS "Patched Vulkan CMakeLists.txt for modern CMake")
-        endif()
-        ENDOFFILE
-
-        # Patch rdr-classes.cmake
-        cat >> cmake/rdr-classes.cmake << 'ENDOFFILE'
-
-        # Patch old CMakeLists.txt immediately after population
-        if(EXISTS "$${rdr-classes_SOURCE_DIR}/CMakeLists.txt")
-          file(READ "$${rdr-classes_SOURCE_DIR}/CMakeLists.txt" RDR_CMAKE)
-          string(REGEX REPLACE "cmake_minimum_required\\\\(VERSION 3\\\\)" "cmake_minimum_required(VERSION 3.5)" RDR_CMAKE "$${RDR_CMAKE}")
-          file(WRITE "$${rdr-classes_SOURCE_DIR}/CMakeLists.txt" "$${RDR_CMAKE}")
-          message(STATUS "Patched RDR-Classes CMakeLists.txt for modern CMake")
-        endif()
-        ENDOFFILE
-
-        # Patch json.cmake
-        cat >> cmake/json.cmake << 'ENDOFFILE'
-
-        # Patch old CMakeLists.txt immediately after population
-        if(EXISTS "$${json_SOURCE_DIR}/CMakeLists.txt")
-          file(READ "$${json_SOURCE_DIR}/CMakeLists.txt" JSON_CMAKE)
-          string(REGEX REPLACE "cmake_minimum_required\\\\(VERSION 3\\\\.[0-4]\\\\)" "cmake_minimum_required(VERSION 3.5)" JSON_CMAKE "$${JSON_CMAKE}")
-          file(WRITE "$${json_SOURCE_DIR}/CMakeLists.txt" "$${JSON_CMAKE}")
-          message(STATUS "Patched JSON CMakeLists.txt for modern CMake")
-        endif()
-        ENDOFFILE
-
-        echo "Added CMakeLists.txt patching to dependency fetch scripts"
-
-    - name: Configure and Build
-      run: |
-        cmake -B build -DCMAKE_BUILD_TYPE=Release
-        cmake --build build --config Release
+    - name: Build
+      run: cmake --build build --config Release
 
     - name: Upload DLL
       uses: actions/upload-artifact@v4

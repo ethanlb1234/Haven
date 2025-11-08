@@ -13,8 +13,8 @@ namespace YimMenu::Features
 			auto ped = Self::GetPed();
 			if (ped.IsValid())
 			{
-				// Add glowing light effect to player
-				GRAPHICS::_SET_ENTITY_LIGHT(ped.GetHandle(), true, 255, 150, 50, 10.0f, 100.0f);
+				// Enable entity lights for glowing effect
+				ENTITY::_SET_ENTITY_LIGHTS_ENABLED(ped.GetHandle(), true);
 			}
 		}
 
@@ -23,7 +23,8 @@ namespace YimMenu::Features
 			auto ped = Self::GetPed();
 			if (ped.IsValid())
 			{
-				GRAPHICS::_SET_ENTITY_LIGHT(ped.GetHandle(), false, 0, 0, 0, 0.0f, 0.0f);
+				// Disable entity lights
+				ENTITY::_SET_ENTITY_LIGHTS_ENABLED(ped.GetHandle(), false);
 			}
 		}
 	};

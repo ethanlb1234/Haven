@@ -6,7 +6,7 @@ message(STATUS "Setting up ${LIB_NAME}")
 FetchContent_Declare(
     ${LIB_NAME}
     GIT_REPOSITORY https://github.com/ocornut/imgui.git
-    GIT_TAG 8cc6eee295871bc8852c12372860a50b950d3f56
+    GIT_TAG v1.91.7-docking
     GIT_PROGRESS TRUE
 )
 

@@ -3,7 +3,8 @@
 #include "game/backend/FiberPool.hpp"
 #include "game/backend/Self.hpp"
 #include "game/rdr/Natives.hpp"
-#include "util/Notifications.hpp"
+#include "core/frontend/Notifications.hpp"
+#include "game/backend/ScriptMgr.hpp"
 
 namespace YimMenu::Features
 {
@@ -28,24 +29,24 @@ namespace YimMenu::Features
 		FARMER
 	};
 
-	static const std::pair<PlayerModel, const char*> g_PlayerModels[] = {
-		{PlayerModel::ARTHUR, "Arthur Morgan"},
-		{PlayerModel::JOHN, "John Marston"},
-		{PlayerModel::DUTCH, "Dutch van der Linde"},
-		{PlayerModel::HOSEA, "Hosea Matthews"},
-		{PlayerModel::SADIE, "Sadie Adler"},
-		{PlayerModel::CHARLES, "Charles Smith"},
-		{PlayerModel::BILL, "Bill Williamson"},
-		{PlayerModel::JAVIER, "Javier Escuella"},
-		{PlayerModel::MICAH, "Micah Bell"},
-		{PlayerModel::NATIVE_WOMAN, "Native Woman"},
-		{PlayerModel::GUNSLINGER, "Gunslinger"},
-		{PlayerModel::COWBOY, "Cowboy"},
-		{PlayerModel::SHERIFF, "Sheriff"},
-		{PlayerModel::OUTLAW, "Outlaw"},
-		{PlayerModel::GENTLEMAN, "Gentleman"},
-		{PlayerModel::LADY, "Lady"},
-		{PlayerModel::FARMER, "Farmer"}
+	static const std::vector<std::pair<int, const char*>> g_PlayerModels = {
+		{(int)PlayerModel::ARTHUR, "Arthur Morgan"},
+		{(int)PlayerModel::JOHN, "John Marston"},
+		{(int)PlayerModel::DUTCH, "Dutch van der Linde"},
+		{(int)PlayerModel::HOSEA, "Hosea Matthews"},
+		{(int)PlayerModel::SADIE, "Sadie Adler"},
+		{(int)PlayerModel::CHARLES, "Charles Smith"},
+		{(int)PlayerModel::BILL, "Bill Williamson"},
+		{(int)PlayerModel::JAVIER, "Javier Escuella"},
+		{(int)PlayerModel::MICAH, "Micah Bell"},
+		{(int)PlayerModel::NATIVE_WOMAN, "Native Woman"},
+		{(int)PlayerModel::GUNSLINGER, "Gunslinger"},
+		{(int)PlayerModel::COWBOY, "Cowboy"},
+		{(int)PlayerModel::SHERIFF, "Sheriff"},
+		{(int)PlayerModel::OUTLAW, "Outlaw"},
+		{(int)PlayerModel::GENTLEMAN, "Gentleman"},
+		{(int)PlayerModel::LADY, "Lady"},
+		{(int)PlayerModel::FARMER, "Farmer"}
 	};
 
 	static ListCommand _PlayerModelType{"playermodeltype", "Player Model", "Choose who you want to be", g_PlayerModels, (int)PlayerModel::ARTHUR};

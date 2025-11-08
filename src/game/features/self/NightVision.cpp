@@ -13,15 +13,16 @@ namespace YimMenu::Features
 			GRAPHICS::SET_TIMECYCLE_MODIFIER("ReplayHighlights");
 			GRAPHICS::SET_TIMECYCLE_MODIFIER_STRENGTH(0.8f);
 
-			// Increase brightness
-			GRAPHICS::_SET_VISION_TYPE(1); // Enhanced vision type
+			// TODO: RDR2 doesn't have _SET_VISION_TYPE native
+			// GRAPHICS::_SET_VISION_TYPE(1); // Enhanced vision type
 		}
 
 		virtual void OnDisable() override
 		{
 			// Remove night vision
 			GRAPHICS::CLEAR_TIMECYCLE_MODIFIER();
-			GRAPHICS::_SET_VISION_TYPE(0); // Normal vision
+			// TODO: RDR2 doesn't have _SET_VISION_TYPE native
+			// GRAPHICS::_SET_VISION_TYPE(0); // Normal vision
 		}
 	};
 

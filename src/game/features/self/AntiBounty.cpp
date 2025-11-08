@@ -18,23 +18,20 @@ namespace YimMenu::Features
 			if (!player.IsValid())
 				return;
 
-			float bounty = PLAYER::GET_BOUNTY(player.GetId());
+			int bounty = LAW::GET_BOUNTY(player.GetId());
 
-			if (bounty > 0.0f)
+			if (bounty > 0)
 			{
 				if (_AutoRemoveBounty.GetState())
 				{
 					// Clear bounty completely (free!)
-					PLAYER::CLEAR_PLAYER_WANTED_LEVEL(player.GetId());
+					LAW::CLEAR_BOUNTY(player.GetId());
 
-					// Also clear crimes
-					LAW::CLEAR_PLAYER_CRIMINAL_RECORD(player.GetId());
-				}
-				else if (_AutoPayBounty.GetState())
-				{
-					// Pay off bounty (costs money but legit)
-					MONEY::PLAYER_MONEY_CHANGE(-bounty, 0);
-					PLAYER::CLEAR_PLAYER_WANTED_LEVEL(player.GetId());
+					// Also clear past crimes
+					LAW::CLEAR_PLAYER_PAST_CRIMES(player.GetId());
+
+					// Set wanted score to 0
+					LAW::SET_WANTED_SCORE(player.GetId(), 0);
 				}
 			}
 		}

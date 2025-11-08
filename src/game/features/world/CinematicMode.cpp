@@ -17,11 +17,11 @@ namespace YimMenu::Features
 			// Draw black bars at top and bottom
 			float barHeight = _LetterboxSize.GetState();
 
-			// Top bar
-			GRAPHICS::DRAW_RECT(0.5f, barHeight / 2.0f, 1.0f, barHeight, 0, 0, 0, 255, false);
+			// Top bar (RDR2 DRAW_RECT takes 10 parameters)
+			GRAPHICS::DRAW_RECT(0.5f, barHeight / 2.0f, 1.0f, barHeight, 0, 0, 0, 255, false, false);
 
 			// Bottom bar
-			GRAPHICS::DRAW_RECT(0.5f, 1.0f - (barHeight / 2.0f), 1.0f, barHeight, 0, 0, 0, 255, false);
+			GRAPHICS::DRAW_RECT(0.5f, 1.0f - (barHeight / 2.0f), 1.0f, barHeight, 0, 0, 0, 255, false, false);
 		}
 	};
 
@@ -37,6 +37,9 @@ namespace YimMenu::Features
 			{
 				// Hide all HUD elements
 				HUD::HIDE_HUD_AND_RADAR_THIS_FRAME();
+				// TODO: RDR2 doesn't have HIDE_HUD_COMPONENT_THIS_FRAME or HIDE_HELP_TEXT_THIS_FRAME
+				// Need to find RDR2-specific HUD hiding methods
+				/*
 				HUD::HIDE_HUD_COMPONENT_THIS_FRAME(1); // Wanted
 				HUD::HIDE_HUD_COMPONENT_THIS_FRAME(2); // Weapon icon
 				HUD::HIDE_HUD_COMPONENT_THIS_FRAME(3); // Cash
@@ -46,6 +49,7 @@ namespace YimMenu::Features
 				HUD::HIDE_HUD_COMPONENT_THIS_FRAME(8); // Vehicle class
 				HUD::HIDE_HUD_COMPONENT_THIS_FRAME(9); // Street name
 				HUD::HIDE_HELP_TEXT_THIS_FRAME();
+				*/
 			}
 		}
 	};

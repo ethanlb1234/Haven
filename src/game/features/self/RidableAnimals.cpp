@@ -4,7 +4,8 @@
 #include "game/backend/Self.hpp"
 #include "game/rdr/Enums.hpp"
 #include "game/rdr/Natives.hpp"
-#include "util/Notifications.hpp"
+#include "core/frontend/Notifications.hpp"
+#include "game/backend/ScriptMgr.hpp"
 
 namespace YimMenu::Features
 {
@@ -22,17 +23,17 @@ namespace YimMenu::Features
 		WOLF
 	};
 
-	static const std::pair<RidableAnimalType, const char*> g_RidableAnimals[] = {
-		{RidableAnimalType::EAGLE, "Eagle (Flying)"},
-		{RidableAnimalType::OWL, "Owl (Flying)"},
-		{RidableAnimalType::HAWK, "Hawk (Flying)"},
-		{RidableAnimalType::LION, "Lion"},
-		{RidableAnimalType::PANTHER, "Panther"},
-		{RidableAnimalType::BUFFALO, "Buffalo"},
-		{RidableAnimalType::ELK, "Elk"},
-		{RidableAnimalType::ALLIGATOR, "Alligator"},
-		{RidableAnimalType::BEAR, "Bear"},
-		{RidableAnimalType::WOLF, "Wolf"}
+	static const std::vector<std::pair<int, const char*>> g_RidableAnimals = {
+		{(int)RidableAnimalType::EAGLE, "Eagle (Flying)"},
+		{(int)RidableAnimalType::OWL, "Owl (Flying)"},
+		{(int)RidableAnimalType::HAWK, "Hawk (Flying)"},
+		{(int)RidableAnimalType::LION, "Lion"},
+		{(int)RidableAnimalType::PANTHER, "Panther"},
+		{(int)RidableAnimalType::BUFFALO, "Buffalo"},
+		{(int)RidableAnimalType::ELK, "Elk"},
+		{(int)RidableAnimalType::ALLIGATOR, "Alligator"},
+		{(int)RidableAnimalType::BEAR, "Bear"},
+		{(int)RidableAnimalType::WOLF, "Wolf"}
 	};
 
 	static ListCommand _RidableAnimalType{"ridableanimaltype", "Ridable Animal", "Choose your mount", g_RidableAnimals, (int)RidableAnimalType::EAGLE};
@@ -99,23 +100,23 @@ namespace YimMenu::Features
 				// Spawn animal
 				Ped animal = PED::CREATE_PED(animalHash, pos.x + 1.0f, pos.y, pos.z, 0.0f, true, true, true, true);
 
-				if (animal)
+				if (animal.IsValid())
 				{
-					// Make it ridable like a horse
-					PED::SET_PED_AS_MOUNT(animal, true);
-					PED::_SET_PED_PROMPT_NAME(animal, "Ridable Animal");
+					// Make it ridable like a horse using proper RDR2 native
+					PED::_SET_PED_AS_TEMP_PLAYER_HORSE(animal.GetHandle());
+					PED::_SET_PED_PROMPT_NAME(animal.GetHandle(), "Ridable Animal");
 
 					// Set flags to make it mountable
-					PED::SET_PED_CONFIG_FLAG(animal, (int)PedConfigFlag::BlockHorseProvokingAttack, true);
-					PED::SET_PED_CONFIG_FLAG(animal, (int)PedConfigFlag::DisableMountedMeleeDamage, true);
+					PED::SET_PED_CONFIG_FLAG(animal.GetHandle(), (int)PedConfigFlag::BlockHorseProvokingAttack, true);
+					PED::SET_PED_CONFIG_FLAG(animal.GetHandle(), (int)PedConfigFlag::DisableMountedMeleeDamage, true);
 
 					// Make invincible
-					ENTITY::SET_ENTITY_INVINCIBLE(animal, true);
+					ENTITY::SET_ENTITY_INVINCIBLE(animal.GetHandle(), true);
 
 					// If flying animal, disable gravity
 					if (flying)
 					{
-						ENTITY::SET_ENTITY_HAS_GRAVITY(animal, false);
+						ENTITY::SET_ENTITY_HAS_GRAVITY(animal.GetHandle(), false);
 						Notifications::Show("Ridable Animal", "Mount the animal and use Space to fly up, Ctrl to descend!", NotificationType::Success);
 					}
 					else
@@ -124,7 +125,7 @@ namespace YimMenu::Features
 					}
 
 					// Scale up the animal to be ridable size
-					PED::_SET_PED_SCALE(animal, 1.5f);
+					PED::_SET_PED_SCALE(animal.GetHandle(), 1.5f);
 				}
 
 				STREAMING::SET_MODEL_AS_NO_LONGER_NEEDED(animalHash);

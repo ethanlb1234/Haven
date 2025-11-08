@@ -3,7 +3,8 @@
 #include "game/backend/FiberPool.hpp"
 #include "game/backend/Self.hpp"
 #include "game/rdr/Natives.hpp"
-#include "util/Notifications.hpp"
+#include "core/frontend/Notifications.hpp"
+#include "game/backend/ScriptMgr.hpp"
 
 namespace YimMenu::Features
 {
@@ -17,13 +18,13 @@ namespace YimMenu::Features
 		MAGIC_CARPET
 	};
 
-	static const std::pair<FlyingMachineType, const char*> g_FlyingMachines[] = {
-		{FlyingMachineType::AIRSHIP, "Airship"},
-		{FlyingMachineType::PLANE, "Biplane"},
-		{FlyingMachineType::UFO, "UFO"},
-		{FlyingMachineType::HOT_AIR_BALLOON, "Hot Air Balloon"},
-		{FlyingMachineType::FLYING_SHARK, "Flying Shark"},
-		{FlyingMachineType::MAGIC_CARPET, "Magic Carpet"}
+	static const std::vector<std::pair<int, const char*>> g_FlyingMachines = {
+		{(int)FlyingMachineType::AIRSHIP, "Airship"},
+		{(int)FlyingMachineType::PLANE, "Biplane"},
+		{(int)FlyingMachineType::UFO, "UFO"},
+		{(int)FlyingMachineType::HOT_AIR_BALLOON, "Hot Air Balloon"},
+		{(int)FlyingMachineType::FLYING_SHARK, "Flying Shark"},
+		{(int)FlyingMachineType::MAGIC_CARPET, "Magic Carpet"}
 	};
 
 	static ListCommand _FlyingMachineType{"flyingmachinetype", "Flying Machine", "Choose your flying vehicle", g_FlyingMachines, (int)FlyingMachineType::AIRSHIP};
@@ -74,18 +75,18 @@ namespace YimMenu::Features
 				// Spawn flying machine above player
 				Vehicle vehicle = VEHICLE::CREATE_VEHICLE(vehicleHash, pos.x, pos.y, pos.z + 2.0f, 0.0f, true, true, false, false);
 
-				if (vehicle)
+				if (vehicle.IsValid())
 				{
 					// Make it fly!
-					ENTITY::SET_ENTITY_INVINCIBLE(vehicle, true);
-					VEHICLE::SET_VEHICLE_GRAVITY(vehicle, false); // No gravity = flies!
-					VEHICLE::SET_VEHICLE_FORWARD_SPEED(vehicle, 0.0f);
+					ENTITY::SET_ENTITY_INVINCIBLE(vehicle.GetHandle(), true);
+					// Note: SET_VEHICLE_GRAVITY doesn't exist in RDR2
+					VEHICLE::SET_VEHICLE_FORWARD_SPEED(vehicle.GetHandle(), 0.0f);
 
 					// Put player in vehicle
-					TASK::TASK_WARP_PED_INTO_VEHICLE(player.GetHandle(), vehicle, -1);
+					TASK::TASK_WARP_PED_INTO_VEHICLE(player.GetHandle(), vehicle.GetHandle(), -1);
 
 					// Add upward velocity for hovering
-					ENTITY::SET_ENTITY_VELOCITY(vehicle, 0.0f, 0.0f, 1.0f);
+					ENTITY::SET_ENTITY_VELOCITY(vehicle.GetHandle(), 0.0f, 0.0f, 1.0f);
 
 					Notifications::Show("Flying Machine", "Use WASD to fly! Space = up, Ctrl = down", NotificationType::Success);
 				}

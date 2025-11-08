@@ -3,7 +3,8 @@
 #include "game/backend/FiberPool.hpp"
 #include "game/backend/Self.hpp"
 #include "game/rdr/Natives.hpp"
-#include "util/Notifications.hpp"
+#include "core/frontend/Notifications.hpp"
+#include "game/backend/ScriptMgr.hpp"
 #include <cmath>
 
 namespace YimMenu::Features
@@ -17,12 +18,12 @@ namespace YimMenu::Features
 		HEART_SHAPE
 	};
 
-	static const std::pair<FireworkType, const char*> g_FireworkTypes[] = {
-		{FireworkType::SINGLE_BURST, "Single Burst"},
-		{FireworkType::MULTI_BURST, "Multi Burst"},
-		{FireworkType::FOUNTAIN, "Fountain"},
-		{FireworkType::RAINBOW_BURST, "Rainbow Burst"},
-		{FireworkType::HEART_SHAPE, "Heart Shape"}
+	static const std::vector<std::pair<int, const char*>> g_FireworkTypes = {
+		{(int)FireworkType::SINGLE_BURST, "Single Burst"},
+		{(int)FireworkType::MULTI_BURST, "Multi Burst"},
+		{(int)FireworkType::FOUNTAIN, "Fountain"},
+		{(int)FireworkType::RAINBOW_BURST, "Rainbow Burst"},
+		{(int)FireworkType::HEART_SHAPE, "Heart Shape"}
 	};
 
 	static ListCommand _FireworkType{"fireworktype", "Firework Type", "Choose your firework style", g_FireworkTypes, (int)FireworkType::SINGLE_BURST};
@@ -46,7 +47,7 @@ namespace YimMenu::Features
 					pos.x, pos.y, pos.z,
 					0.0f, 0.0f, 0.0f,
 					2.0f, // Scale
-					false, false, false, false
+					false, false, false
 				);
 			}
 		}

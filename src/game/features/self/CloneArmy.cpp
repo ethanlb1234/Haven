@@ -3,7 +3,8 @@
 #include "game/backend/FiberPool.hpp"
 #include "game/backend/Self.hpp"
 #include "game/rdr/Natives.hpp"
-#include "util/Notifications.hpp"
+#include "core/frontend/Notifications.hpp"
+#include "game/backend/ScriptMgr.hpp"
 #include <vector>
 
 namespace YimMenu::Features
@@ -25,9 +26,9 @@ namespace YimMenu::Features
 				// Clear old clones
 				for (auto clone : g_Clones)
 				{
-					if (ENTITY::DOES_ENTITY_EXIST(clone))
+					if (ENTITY::DOES_ENTITY_EXIST(clone.GetHandle()))
 					{
-						PED::DELETE_PED(&clone);
+						PED::DELETE_PED(clone.GetHandle());
 					}
 				}
 				g_Clones.clear();
@@ -56,18 +57,18 @@ namespace YimMenu::Features
 
 					Ped clone = PED::CREATE_PED(playerModel, clonePos.x, clonePos.y, clonePos.z, 0.0f, true, true, true, true);
 
-					if (clone)
+					if (clone.IsValid())
 					{
 						// Make clone follow player
-						TASK::TASK_FOLLOW_TO_OFFSET_OF_ENTITY(clone, player.GetHandle(),
+						TASK::TASK_FOLLOW_TO_OFFSET_OF_ENTITY(clone.GetHandle(), player.GetHandle(),
 							cos(angle) * radius, sin(angle) * radius, 0.0f,
 							1.0f, -1, 2.0f, true);
 
 						// Make invincible
-						ENTITY::SET_ENTITY_INVINCIBLE(clone, true);
+						ENTITY::SET_ENTITY_INVINCIBLE(clone.GetHandle(), true);
 
 						// Copy player's outfit/appearance
-						PED::CLONE_PED_TO_TARGET(player.GetHandle(), clone);
+						PED::CLONE_PED_TO_TARGET(player.GetHandle(), clone.GetHandle());
 
 						g_Clones.push_back(clone);
 					}
@@ -91,9 +92,9 @@ namespace YimMenu::Features
 			FiberPool::Push([] {
 				for (auto clone : g_Clones)
 				{
-					if (ENTITY::DOES_ENTITY_EXIST(clone))
+					if (ENTITY::DOES_ENTITY_EXIST(clone.GetHandle()))
 					{
-						PED::DELETE_PED(&clone);
+						PED::DELETE_PED(clone.GetHandle());
 					}
 				}
 				g_Clones.clear();

@@ -1,5 +1,6 @@
 #include "core/commands/BoolCommand.hpp"
 #include "core/commands/LoopedCommand.hpp"
+#include "game/backend/ScriptMgr.hpp"
 #include "game/backend/Self.hpp"
 #include "game/rdr/Natives.hpp"
 

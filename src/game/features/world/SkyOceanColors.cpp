@@ -18,16 +18,16 @@ namespace YimMenu::Features
 		RAINBOW
 	};
 
-	static const std::pair<SkyColor, const char*> g_SkyColors[] = {
-		{SkyColor::NORMAL, "Normal"},
-		{SkyColor::PURPLE, "Purple Dream"},
-		{SkyColor::PINK, "Cotton Candy Pink"},
-		{SkyColor::GREEN, "Emerald Green"},
-		{SkyColor::ORANGE, "Eternal Sunset"},
-		{SkyColor::RED, "Mars Red"},
-		{SkyColor::ALIEN_GREEN, "Alien World"},
-		{SkyColor::DEEP_BLUE, "Deep Ocean Blue"},
-		{SkyColor::RAINBOW, "Rainbow Cycle"}
+	static const std::vector<std::pair<int, const char*>> g_SkyColors = {
+		{(int)SkyColor::NORMAL, "Normal"},
+		{(int)SkyColor::PURPLE, "Purple Dream"},
+		{(int)SkyColor::PINK, "Cotton Candy Pink"},
+		{(int)SkyColor::GREEN, "Emerald Green"},
+		{(int)SkyColor::ORANGE, "Eternal Sunset"},
+		{(int)SkyColor::RED, "Mars Red"},
+		{(int)SkyColor::ALIEN_GREEN, "Alien World"},
+		{(int)SkyColor::DEEP_BLUE, "Deep Ocean Blue"},
+		{(int)SkyColor::RAINBOW, "Rainbow Cycle"}
 	};
 
 	static ListCommand _SkyColorType{"skycolortype", "Sky Color", "Paint the sky any color!", g_SkyColors, (int)SkyColor::NORMAL};
@@ -35,64 +35,61 @@ namespace YimMenu::Features
 	class SkyColorChanger : public LoopedCommand
 	{
 		using LoopedCommand::LoopedCommand;
-		static inline int rainbowHue = 0;
+		static inline int rainbowTick = 0;
 
-		void ApplySkyColor(SkyColor color)
+		const char* GetTimecycleModifier(SkyColor color)
 		{
+			// RDR2 uses timecycle modifiers for sky color changes
 			switch (color)
 			{
 			case SkyColor::PURPLE:
-				GRAPHICS::_SET_CLOUD_SETTINGS(0.5f, 0.2f, 0.8f, 0.5f); // Purple tint
-				break;
+				return "MP_SleepFade"; // Purple/blue tint
 			case SkyColor::PINK:
-				GRAPHICS::_SET_CLOUD_SETTINGS(1.0f, 0.4f, 0.7f, 0.5f); // Pink
-				break;
+				return "RespawnPulse02"; // Pink ethereal glow
 			case SkyColor::GREEN:
-				GRAPHICS::_SET_CLOUD_SETTINGS(0.3f, 0.8f, 0.3f, 0.5f); // Green
-				break;
+				return "InvasionOfAmerica"; // Green tint
 			case SkyColor::ORANGE:
-				GRAPHICS::_SET_CLOUD_SETTINGS(1.0f, 0.6f, 0.2f, 0.5f); // Orange sunset
-				break;
+				return "MP_Deathmatch_night"; // Warm orange sunset
 			case SkyColor::RED:
-				GRAPHICS::_SET_CLOUD_SETTINGS(0.9f, 0.2f, 0.2f, 0.5f); // Red/Mars
-				break;
+				return "MP_ArenaWheelLose"; // Red tint
 			case SkyColor::ALIEN_GREEN:
-				GRAPHICS::_SET_CLOUD_SETTINGS(0.5f, 1.0f, 0.3f, 0.5f); // Alien green
-				break;
+				return "MP_FrozenCarbon_night"; // Alien atmosphere
 			case SkyColor::DEEP_BLUE:
-				GRAPHICS::_SET_CLOUD_SETTINGS(0.2f, 0.4f, 1.0f, 0.5f); // Deep blue
-				break;
+				return "MP_FrozenCarbon"; // Deep blue
 			case SkyColor::RAINBOW:
-				// Cycle through rainbow
-				rainbowHue = (rainbowHue + 1) % 360;
-				float r, g, b;
-				// Simple HSV to RGB conversion
-				float h = rainbowHue / 60.0f;
-				float x = 1.0f - abs(fmod(h, 2.0f) - 1.0f);
-				if (h < 1) { r = 1; g = x; b = 0; }
-				else if (h < 2) { r = x; g = 1; b = 0; }
-				else if (h < 3) { r = 0; g = 1; b = x; }
-				else if (h < 4) { r = 0; g = x; b = 1; }
-				else if (h < 5) { r = x; g = 0; b = 1; }
-				else { r = 1; g = 0; b = x; }
-				GRAPHICS::_SET_CLOUD_SETTINGS(r, g, b, 0.5f);
-				break;
+				// Cycle through different modifiers for rainbow effect
+				rainbowTick = (rainbowTick + 1) % 300;
+				if (rainbowTick < 50) return "MP_Deathmatch_night"; // Orange
+				else if (rainbowTick < 100) return "RespawnPulse02"; // Pink
+				else if (rainbowTick < 150) return "MP_FrozenCarbon"; // Blue
+				else if (rainbowTick < 200) return "InvasionOfAmerica"; // Green
+				else if (rainbowTick < 250) return "MP_ArenaWheelLose"; // Red
+				else return "GoldenRatio02"; // Gold
 			default:
-				GRAPHICS::_RESET_CLOUD_SETTINGS();
-				break;
+				return nullptr;
 			}
 		}
 
 		virtual void OnTick() override
 		{
 			auto color = (SkyColor)_SkyColorType.GetState();
-			ApplySkyColor(color);
+			const char* modifier = GetTimecycleModifier(color);
+
+			if (modifier)
+			{
+				GRAPHICS::SET_TIMECYCLE_MODIFIER(modifier);
+				GRAPHICS::SET_TIMECYCLE_MODIFIER_STRENGTH(0.8f);
+			}
+			else
+			{
+				GRAPHICS::CLEAR_TIMECYCLE_MODIFIER();
+			}
 		}
 
 		virtual void OnDisable() override
 		{
-			GRAPHICS::_RESET_CLOUD_SETTINGS();
-			rainbowHue = 0;
+			GRAPHICS::CLEAR_TIMECYCLE_MODIFIER();
+			rainbowTick = 0;
 		}
 	};
 

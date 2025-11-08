@@ -20,18 +20,18 @@ namespace YimMenu::Features
 		COOL_NIGHT
 	};
 
-	static const std::pair<VisualFilter, const char*> g_VisualFilters[] = {
-		{VisualFilter::NONE, "None (Default)"},
-		{VisualFilter::SEPIA_WESTERN, "Sepia Western"},
-		{VisualFilter::VIBRANT, "Vibrant Colors"},
-		{VisualFilter::NOIR, "Film Noir"},
-		{VisualFilter::DREAMY, "Dreamy Glow"},
-		{VisualFilter::GOLDEN_HOUR, "Golden Hour"},
-		{VisualFilter::WINTER, "Winter Blues"},
-		{VisualFilter::DRAMATIC, "Dramatic"},
-		{VisualFilter::VINTAGE, "Vintage Photo"},
-		{VisualFilter::WARM_SUNSET, "Warm Sunset"},
-		{VisualFilter::COOL_NIGHT, "Cool Night"}
+	static const std::vector<std::pair<int, const char*>> g_VisualFilters = {
+		{(int)VisualFilter::NONE, "None (Default)"},
+		{(int)VisualFilter::SEPIA_WESTERN, "Sepia Western"},
+		{(int)VisualFilter::VIBRANT, "Vibrant Colors"},
+		{(int)VisualFilter::NOIR, "Film Noir"},
+		{(int)VisualFilter::DREAMY, "Dreamy Glow"},
+		{(int)VisualFilter::GOLDEN_HOUR, "Golden Hour"},
+		{(int)VisualFilter::WINTER, "Winter Blues"},
+		{(int)VisualFilter::DRAMATIC, "Dramatic"},
+		{(int)VisualFilter::VINTAGE, "Vintage Photo"},
+		{(int)VisualFilter::WARM_SUNSET, "Warm Sunset"},
+		{(int)VisualFilter::COOL_NIGHT, "Cool Night"}
 	};
 
 	static ListCommand _VisualFilter{"visualfilter", "Visual Filter", "Change the visual atmosphere", g_VisualFilters, (int)VisualFilter::NONE};

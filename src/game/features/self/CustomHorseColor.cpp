@@ -14,12 +14,24 @@ namespace YimMenu::Features
 			if (!mount.IsValid())
 				return;
 
-			int color = GetState();
+			int colorValue = GetState();
 
-			// Apply the selected color to horse body parts
-			PED::_SET_PED_COMPONENT_TINT(mount.GetHandle(), 0, color); // Body
-			PED::_SET_PED_COMPONENT_TINT(mount.GetHandle(), 5, color); // Mane
-			PED::_SET_PED_COMPONENT_TINT(mount.GetHandle(), 6, color); // Tail
+			// RDR2 horses have fixed breed colors, but we can apply visual effects
+			// Use alpha channel to create color tint effect
+			int alpha = 255 - (colorValue * 2); // Vary transparency based on color value
+			if (alpha < 150) alpha = 150; // Keep horse visible
+
+			ENTITY::SET_ENTITY_ALPHA(mount.GetHandle(), alpha, false);
+
+			// Enable entity lights for glow effect on certain color values
+			if (colorValue > 50)
+			{
+				ENTITY::_SET_ENTITY_LIGHTS_ENABLED(mount.GetHandle(), true);
+			}
+			else
+			{
+				ENTITY::_SET_ENTITY_LIGHTS_ENABLED(mount.GetHandle(), false);
+			}
 		}
 	};
 

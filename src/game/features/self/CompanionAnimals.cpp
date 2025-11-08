@@ -4,7 +4,8 @@
 #include "game/backend/Self.hpp"
 #include "game/rdr/Enums.hpp"
 #include "game/rdr/Natives.hpp"
-#include "util/Notifications.hpp"
+#include "core/frontend/Notifications.hpp"
+#include "game/backend/ScriptMgr.hpp"
 
 namespace YimMenu::Features
 {
@@ -22,17 +23,17 @@ namespace YimMenu::Features
 		BEAR
 	};
 
-	static const std::pair<CompanionType, const char*> g_CompanionTypes[] = {
-		{CompanionType::DOG, "Dog"},
-		{CompanionType::WOLF, "Wolf"},
-		{CompanionType::COYOTE, "Coyote"},
-		{CompanionType::COUGAR, "Cougar"},
-		{CompanionType::DEER, "Deer"},
-		{CompanionType::CAT, "Cat"},
-		{CompanionType::EAGLE, "Eagle"},
-		{CompanionType::CROW, "Crow"},
-		{CompanionType::RABBIT, "Rabbit"},
-		{CompanionType::BEAR, "Bear"}
+	static const std::vector<std::pair<int, const char*>> g_CompanionTypes = {
+		{(int)CompanionType::DOG, "Dog"},
+		{(int)CompanionType::WOLF, "Wolf"},
+		{(int)CompanionType::COYOTE, "Coyote"},
+		{(int)CompanionType::COUGAR, "Cougar"},
+		{(int)CompanionType::DEER, "Deer"},
+		{(int)CompanionType::CAT, "Cat"},
+		{(int)CompanionType::EAGLE, "Eagle"},
+		{(int)CompanionType::CROW, "Crow"},
+		{(int)CompanionType::RABBIT, "Rabbit"},
+		{(int)CompanionType::BEAR, "Bear"}
 	};
 
 	static ListCommand _CompanionType{"companiontype", "Companion Animal", "Choose your animal companion", g_CompanionTypes, (int)CompanionType::DOG};
@@ -91,21 +92,21 @@ namespace YimMenu::Features
 				// Spawn companion slightly in front of player
 				Ped companion = PED::CREATE_PED(animalHash, pos.x + 2.0f, pos.y + 2.0f, pos.z, 0.0f, true, true, true, true);
 
-				if (companion)
+				if (companion.IsValid())
 				{
 					// Make friendly
-					PED::SET_PED_AS_NO_LONGER_NEEDED(&companion);
-					PED::SET_BLOCKING_OF_NON_TEMPORARY_EVENTS(companion, true);
-					PED::_SET_PED_PERSONALITY(companion, "DISPOSIT ION_FRIENDLY"_J);
+					PED::SET_PED_AS_NO_LONGER_NEEDED(companion.GetHandle());
+					PED::SET_BLOCKING_OF_NON_TEMPORARY_EVENTS(companion.GetHandle(), true);
+					PED::_SET_PED_PERSONALITY(companion.GetHandle(), "DISPOSITION_FRIENDLY"_J);
 
 					// Set as companion
-					PED::SET_PED_AS_GROUP_MEMBER(companion, PED::GET_PED_GROUP_INDEX(player.GetHandle()));
+					PED::SET_PED_AS_GROUP_MEMBER(companion.GetHandle(), PED::GET_PED_GROUP_INDEX(player.GetHandle()));
 
 					// Make invincible
-					ENTITY::SET_ENTITY_INVINCIBLE(companion, true);
+					ENTITY::SET_ENTITY_INVINCIBLE(companion.GetHandle(), true);
 
 					// Set relationship
-					PED::SET_PED_RELATIONSHIP_GROUP_HASH(companion, "PLAYER"_J);
+					PED::SET_PED_RELATIONSHIP_GROUP_HASH(companion.GetHandle(), "PLAYER"_J);
 
 					Notifications::Show("Companion Spawned", "Your companion is ready to follow you!", NotificationType::Success);
 				}
