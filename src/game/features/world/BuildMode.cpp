@@ -3,6 +3,7 @@
 #include "core/commands/ListCommand.hpp"
 #include "core/commands/LoopedCommand.hpp"
 #include "game/backend/FiberPool.hpp"
+#include "game/backend/ScriptMgr.hpp"
 #include "game/backend/Self.hpp"
 #include "game/rdr/Natives.hpp"
 #include "core/frontend/Notifications.hpp"
@@ -227,7 +228,7 @@ namespace YimMenu::Features
 				if (obj)
 				{
 					ENTITY::SET_ENTITY_HEADING(obj, g_ObjectRotation);
-					OBJECT::_SET_OBJECT_SCALE(obj, g_ObjectScale);
+					// Note: RDR2 doesn't have object scaling native
 					ENTITY::FREEZE_ENTITY_POSITION(obj, true);
 
 					PlacedObject placed;
