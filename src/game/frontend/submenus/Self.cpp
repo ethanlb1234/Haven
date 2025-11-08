@@ -278,6 +278,10 @@ namespace YimMenu::Submenus
 		auto playerEffectsGroup = std::make_shared<Group>("Player Effects");
 		auto worldGroup = std::make_shared<Group>("World Control");
 		auto companionsGroup = std::make_shared<Group>("Companions");
+		auto vehiclesGroup = std::make_shared<Group>("Flying Machines");
+		auto ridablesGroup = std::make_shared<Group>("Ridable Animals");
+		auto explorationGroup = std::make_shared<Group>("Exploration");
+		auto peacefulGroup = std::make_shared<Group>("Peaceful Features");
 
 		// Visual Effects & Filters
 		visualsGroup->AddItem(std::make_shared<BoolCommandItem>("visualfilterapplier"_J));
@@ -332,11 +336,63 @@ namespace YimMenu::Submenus
 			ImGui::TextWrapped("Spawn friendly animal companions: Dog, Wolf, Bear, Eagle, Deer & more! They'll follow you everywhere!");
 		}));
 
+		// Flying Machines
+		vehiclesGroup->AddItem(std::make_shared<ListCommandItem>("flyingmachinetype"_J));
+		vehiclesGroup->AddItem(std::make_shared<CommandItem>("spawnflyingmachine"_J));
+		vehiclesGroup->AddItem(std::make_shared<ImGuiItem>([] {
+			ImGui::TextWrapped("Fly airships, planes, UFOs, hot air balloons & more! Explore the skies!");
+		}));
+
+		// Ridable Animals
+		ridablesGroup->AddItem(std::make_shared<ListCommandItem>("ridableanimaltype"_J));
+		ridablesGroup->AddItem(std::make_shared<CommandItem>("spawnridableanimal"_J));
+		ridablesGroup->AddItem(std::make_shared<ImGuiItem>([] {
+			ImGui::TextWrapped("Ride eagles through the sky, lions across the plains, bears through forests!");
+		}));
+
+		// Exploration
+		explorationGroup->AddItem(std::make_shared<ListCommandItem>("playermodeltype"_J));
+		explorationGroup->AddItem(std::make_shared<CommandItem>("changeplayermodel"_J));
+		explorationGroup->AddItem(std::make_shared<ImGuiItem>([] {
+			ImGui::TextWrapped("Transform into anyone! Roleplay as Arthur, Sadie, Dutch, or any NPC!");
+		}));
+		explorationGroup->AddItem(std::make_shared<BoolCommandItem>("nightvision"_J));
+		explorationGroup->AddItem(std::make_shared<ImGuiItem>([] {
+			ImGui::TextWrapped("See clearly in the dark with enhanced vision!");
+		}));
+		explorationGroup->AddItem(std::make_shared<BoolCommandItem>("walkonwater"_J));
+		explorationGroup->AddItem(std::make_shared<BoolCommandItem>("walkonair"_J));
+		explorationGroup->AddItem(std::make_shared<ImGuiItem>([] {
+			ImGui::TextWrapped("Walk across water or create invisible platforms in the sky!");
+		}));
+		explorationGroup->AddItem(std::make_shared<CommandItem>("teleporttoguarma"_J));
+		explorationGroup->AddItem(std::make_shared<CommandItem>("teleporttosisika"_J));
+		explorationGroup->AddItem(std::make_shared<ImGuiItem>([] {
+			ImGui::TextWrapped("Visit restricted areas: Guarma island, Sisika prison, & more!");
+		}));
+
+		// Peaceful Features
+		peacefulGroup->AddItem(std::make_shared<BoolCommandItem>("antibounty"_J));
+		peacefulGroup->AddItem(std::make_shared<BoolCommandItem>("autoremovebounty"_J));
+		peacefulGroup->AddItem(std::make_shared<BoolCommandItem>("autopaybounty"_J));
+		peacefulGroup->AddItem(std::make_shared<ImGuiItem>([] {
+			ImGui::TextWrapped("Automatically remove or pay bounties - play in peace!");
+		}));
+		peacefulGroup->AddItem(std::make_shared<CommandItem>("opennearbydo ors"_J));
+		peacefulGroup->AddItem(std::make_shared<CommandItem>("unlockall doors"_J));
+		peacefulGroup->AddItem(std::make_shared<ImGuiItem>([] {
+			ImGui::TextWrapped("Open locked doors: banks, shops, stables - explore everywhere!");
+		}));
+
 		creative->AddItem(visualsGroup);
 		creative->AddItem(particlesGroup);
 		creative->AddItem(playerEffectsGroup);
 		creative->AddItem(worldGroup);
 		creative->AddItem(companionsGroup);
+		creative->AddItem(vehiclesGroup);
+		creative->AddItem(ridablesGroup);
+		creative->AddItem(explorationGroup);
+		creative->AddItem(peacefulGroup);
 		AddCategory(std::move(creative));
 	}
 }
