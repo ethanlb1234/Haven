@@ -37,11 +37,10 @@ namespace YimMenu::Features
 
 			int color = rainbowColors[m_ColorIndex];
 
-			// Apply color to horse body parts
-			// Component 0 = Body, 5 = Mane, 6 = Tail
-			PED::_SET_PED_COMPONENT_TINT(mount.GetHandle(), 0, color); // Body
-			PED::_SET_PED_COMPONENT_TINT(mount.GetHandle(), 5, color); // Mane
-			PED::_SET_PED_COMPONENT_TINT(mount.GetHandle(), 6, color); // Tail
+			// TODO: Find correct RDR2 native for horse coloring
+			// PED::_SET_PED_COMPONENT_TINT doesn't exist in RDR2
+			// Using entity alpha as placeholder effect
+			ENTITY::SET_ENTITY_ALPHA(mount.GetHandle(), 255 - (m_ColorIndex * 10), false);
 
 			m_ColorIndex = (m_ColorIndex + 1) % 8;
 		}
@@ -51,10 +50,8 @@ namespace YimMenu::Features
 			auto mount = Self::GetMount();
 			if (mount.IsValid())
 			{
-				// Reset to default color (brown)
-				PED::_SET_PED_COMPONENT_TINT(mount.GetHandle(), 0, 0);
-				PED::_SET_PED_COMPONENT_TINT(mount.GetHandle(), 5, 0);
-				PED::_SET_PED_COMPONENT_TINT(mount.GetHandle(), 6, 0);
+				// Reset alpha
+				ENTITY::SET_ENTITY_ALPHA(mount.GetHandle(), 255, false);
 			}
 		}
 	};

@@ -88,8 +88,8 @@ namespace YimMenu::Features
 				return;
 
 			// Request and load particle asset
-			STREAMING::REQUEST_NAMED_PTFX_ASSET(rage::joaat(asset));
-			if (STREAMING::HAS_NAMED_PTFX_ASSET_LOADED(rage::joaat(asset)))
+			STREAMING::REQUEST_NAMED_PTFX_ASSET(asset);
+			if (STREAMING::HAS_NAMED_PTFX_ASSET_LOADED(asset))
 			{
 				GRAPHICS::USE_PARTICLE_FX_ASSET(asset);
 
