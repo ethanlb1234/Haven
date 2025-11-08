@@ -204,7 +204,7 @@ namespace YimMenu::Features
 					return;
 				}
 
-				Vector3 waypointPos = MAP::GET_WAYPOINT_COORDS_3D();
+				Vector3 waypointPos = MAP::_GET_WAYPOINT_COORDS();
 
 				// Get ground Z
 				float groundZ;

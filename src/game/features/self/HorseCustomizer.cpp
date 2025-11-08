@@ -2,6 +2,7 @@
 #include "core/commands/BoolCommand.hpp"
 #include "core/commands/ListCommand.hpp"
 #include "game/backend/FiberPool.hpp"
+#include "game/backend/ScriptMgr.hpp"
 #include "game/backend/Self.hpp"
 #include "game/rdr/Natives.hpp"
 #include "game/rdr/Ped.hpp"
@@ -10,6 +11,7 @@
 namespace YimMenu::Features
 {
 	// Horse Customizer - Advanced horse customization and spawning
+	// Note: Bonding level native doesn't exist in RDR2, removed that feature
 
 	enum class HorseBreed
 	{
@@ -54,7 +56,6 @@ namespace YimMenu::Features
 
 	static ListCommand _HorseBreed{"horsebreed", "Horse Breed", "Choose horse breed", g_HorseBreeds, 0};
 	static BoolCommand _MaxHorseStats{"maxhorsestats", "Max Stats", "Give horse max stats"};
-	static BoolCommand _MaxHorseBonding{"maxhorsebonding", "Max Bonding", "Instant level 4 bonding"};
 
 	const char* GetHorseModel(HorseBreed breed)
 	{
@@ -142,17 +143,10 @@ namespace YimMenu::Features
 					// Max stats if enabled
 					if (_MaxHorseStats.GetState())
 					{
-						// Max health and stamina
+						// Max health
 						PED::SET_PED_MAX_HEALTH(horse.GetHandle(), 999);
 						horse.SetHealth(999);
-						PED::_CHANGE_PED_STAMINA(horse.GetHandle(), 999.0f);
-					}
-
-					// Max bonding if enabled
-					if (_MaxHorseBonding.GetState())
-					{
-						// Set bonding level to 4 (max)
-						PED::_SET_PED_BONDING_LEVEL(horse.GetHandle(), 4);
+						// Note: stamina native _CHANGE_PED_STAMINA doesn't exist
 					}
 
 					Notifications::Show("Horse Customizer", std::format("Spawned {}!", g_HorseBreeds[(int)breed].second), NotificationType::Success);
@@ -198,10 +192,6 @@ namespace YimMenu::Features
 				// Max stats
 				PED::SET_PED_MAX_HEALTH(horse.GetHandle(), 999);
 				horse.SetHealth(999);
-				PED::_CHANGE_PED_STAMINA(horse.GetHandle(), 999.0f);
-
-				// Max bonding
-				PED::_SET_PED_BONDING_LEVEL(horse.GetHandle(), 4);
 
 				// Make invincible
 				horse.SetInvincible(true);
@@ -211,7 +201,7 @@ namespace YimMenu::Features
 		}
 	};
 
-	static MaxCurrentHorse _MaxCurrentHorse{"maxcurrenthorse", "Max Current Horse", "Max stats and bonding for your current horse"};
+	static MaxCurrentHorse _MaxCurrentHorse{"maxcurrenthorse", "Max Current Horse", "Max stats for your current horse"};
 
 	class HealHorse : public Command
 	{
@@ -239,7 +229,6 @@ namespace YimMenu::Features
 
 				// Heal horse
 				horse.SetHealth(horse.GetMaxHealth());
-				PED::_CHANGE_PED_STAMINA(horse.GetHandle(), 100.0f);
 
 				// Remove dirt
 				PED::CLEAR_PED_WETNESS(horse.GetHandle());

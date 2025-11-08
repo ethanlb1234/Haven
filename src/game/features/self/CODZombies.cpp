@@ -210,30 +210,21 @@ namespace YimMenu::Features
 				SpawnZombieWave(g_CurrentWave);
 			}
 
-			// Draw HUD
-			GRAPHICS::SET_SCRIPT_GFX_DRAW_ORDER(1);
-
-			// Wave counter
+			// Draw HUD using UIDEBUG natives
 			std::string waveText = std::format("Wave: {}", g_CurrentWave);
-			HUD::SET_TEXT_SCALE(0.5f, 0.5f);
-			HUD::SET_TEXT_COLOR(255, 50, 50, 255);
-			HUD::SET_TEXT_CENTRE(false);
-			HUD::_SET_TEXT_ENABLED(waveText.c_str());
-			HUD::DISPLAY_TEXT(HUD::_CREATE_VAR_STRING(10, "LITERAL_STRING", waveText.c_str()), 0.02f, 0.02f);
+			UIDEBUG::_BG_SET_TEXT_SCALE(0.5f, 0.5f);
+			UIDEBUG::_BG_SET_TEXT_COLOR(255, 50, 50, 255);
+			UIDEBUG::_BG_DISPLAY_TEXT(MISC::VAR_STRING(10, "LITERAL_STRING", waveText.c_str()), 0.02f, 0.02f);
 
-			// Points counter
 			std::string pointsText = std::format("Points: {}", g_Points);
-			HUD::SET_TEXT_SCALE(0.5f, 0.5f);
-			HUD::SET_TEXT_COLOR(100, 255, 100, 255);
-			HUD::_SET_TEXT_ENABLED(pointsText.c_str());
-			HUD::DISPLAY_TEXT(HUD::_CREATE_VAR_STRING(10, "LITERAL_STRING", pointsText.c_str()), 0.02f, 0.06f);
+			UIDEBUG::_BG_SET_TEXT_SCALE(0.5f, 0.5f);
+			UIDEBUG::_BG_SET_TEXT_COLOR(100, 255, 100, 255);
+			UIDEBUG::_BG_DISPLAY_TEXT(MISC::VAR_STRING(10, "LITERAL_STRING", pointsText.c_str()), 0.02f, 0.06f);
 
-			// Zombies remaining
 			std::string zombiesText = std::format("Zombies: {}", g_ZombiesRemaining);
-			HUD::SET_TEXT_SCALE(0.5f, 0.5f);
-			HUD::SET_TEXT_COLOR(255, 200, 100, 255);
-			HUD::_SET_TEXT_ENABLED(zombiesText.c_str());
-			HUD::DISPLAY_TEXT(HUD::_CREATE_VAR_STRING(10, "LITERAL_STRING", zombiesText.c_str()), 0.02f, 0.10f);
+			UIDEBUG::_BG_SET_TEXT_SCALE(0.5f, 0.5f);
+			UIDEBUG::_BG_SET_TEXT_COLOR(255, 200, 100, 255);
+			UIDEBUG::_BG_DISPLAY_TEXT(MISC::VAR_STRING(10, "LITERAL_STRING", zombiesText.c_str()), 0.02f, 0.10f);
 		}
 
 		virtual void OnDisable() override

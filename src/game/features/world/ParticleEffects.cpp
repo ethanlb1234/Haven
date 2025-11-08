@@ -134,7 +134,7 @@ namespace YimMenu::Features
 					pos.x, pos.y, pos.z + 1.0f,
 					0.0f, 0.0f, 0.0f,
 					info.scale,
-					false, false, false, false
+					false, false, false
 				);
 
 				Notifications::Show("Particle Effects", std::format("Spawned {}!", g_ParticleEffects[(int)effectType].second), NotificationType::Success);
@@ -177,7 +177,7 @@ namespace YimMenu::Features
 					pos.x, pos.y, pos.z + 1.0f,
 					0.0f, 0.0f, 0.0f,
 					info.scale,
-					false, false, false, false
+					false, false, false
 				);
 			}
 			else
@@ -234,7 +234,7 @@ namespace YimMenu::Features
 						pos.x + xOffset, pos.y + yOffset, pos.z + zOffset,
 						0.0f, 0.0f, 0.0f,
 						2.0f,
-						false, false, false, false
+						false, false, false
 					);
 
 					ScriptMgr::Yield(200); // Wait 200ms between fireworks

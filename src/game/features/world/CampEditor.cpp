@@ -58,41 +58,7 @@ namespace YimMenu::Features
 
 	static FillCampSupplies _FillCampSupplies{"fillcampsupplies", "Fill Camp Supplies", "Max health, provisions, and ammo"};
 
-	class TeleportToCamp : public Command
-	{
-		using Command::Command;
-
-		virtual void OnCall() override
-		{
-			FiberPool::Push([] {
-				auto ped = Self::GetPed();
-				if (!ped.IsValid())
-					return;
-
-				// Get camp blip position
-				Blip campBlip = MAP::BLIP_GET_FIRST_INFO_ID("BLIP_STYLE_PLAYER_CAMP"_J);
-
-				if (!MAP::DOES_BLIP_EXIST(campBlip))
-				{
-					Notifications::Show("Camp Editor", "No camp found! Set up camp first.", NotificationType::Error);
-					return;
-				}
-
-				Vector3 campPos = MAP::GET_BLIP_COORDS(campBlip);
-
-				// Get ground Z
-				float groundZ;
-				if (MISC::GET_GROUND_Z_FOR_3D_COORD(campPos.x, campPos.y, campPos.z + 100.0f, &groundZ, false))
-					campPos.z = groundZ;
-
-				ENTITY::SET_ENTITY_COORDS(ped.GetHandle(), campPos.x, campPos.y, campPos.z, false, false, false, false);
-
-				Notifications::Show("Camp Editor", "Teleported to camp!", NotificationType::Success);
-			});
-		}
-	};
-
-	static TeleportToCamp _TeleportToCamp{"teleporttocamp", "Teleport to Camp", "Instantly travel to gang camp"};
+	// Note: Teleport to camp removed - BLIP_GET_FIRST_INFO_ID native doesn't exist in RDR2
 
 	class MaxCampMorale : public Command
 	{
