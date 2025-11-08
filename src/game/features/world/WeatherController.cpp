@@ -97,11 +97,11 @@ namespace YimMenu::Features
 
 			if (_InstantWeather.GetState())
 			{
-				MISC::SET_WEATHER_TYPE(rage::joaat(weatherName), true, true, true, 0.0f, false);
+				MISC::SET_WEATHER_TYPE(Joaat(weatherName), true, true, true, 0.0f, false);
 			}
 			else
 			{
-				MISC::SET_WEATHER_TYPE(rage::joaat(weatherName), true, true, false, 60.0f, false);
+				MISC::SET_WEATHER_TYPE(Joaat(weatherName), true, true, false, 60.0f, false);
 			}
 
 			Notifications::Show("Weather Controller", std::format("Changed weather to {}!", g_WeatherTypes[(int)type].second), NotificationType::Success);
@@ -120,7 +120,7 @@ namespace YimMenu::Features
 			{
 				WeatherType type = (WeatherType)_WeatherType.GetState();
 				const char* weatherName = GetWeatherName(type);
-				MISC::SET_WEATHER_TYPE(rage::joaat(weatherName), true, true, true, 0.0f, false);
+				MISC::SET_WEATHER_TYPE(Joaat(weatherName), true, true, true, 0.0f, false);
 			}
 		}
 	};

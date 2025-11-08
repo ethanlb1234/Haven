@@ -113,7 +113,7 @@ namespace YimMenu::Features
 
 				HorseBreed breed = (HorseBreed)_HorseBreed.GetState();
 				const char* modelName = GetHorseModel(breed);
-				Hash model = rage::joaat(modelName);
+				Hash model = Joaat(modelName);
 
 				STREAMING::REQUEST_MODEL(model, false);
 				int attempts = 0;

@@ -111,15 +111,15 @@ namespace YimMenu::Features
 				auto pos = ped.GetPosition();
 
 				// Request particle dictionary
-				STREAMING::REQUEST_NAMED_PTFX_ASSET(rage::joaat(info.dict));
+				STREAMING::REQUEST_NAMED_PTFX_ASSET(Joaat(info.dict));
 				int attempts = 0;
-				while (!STREAMING::HAS_NAMED_PTFX_ASSET_LOADED(rage::joaat(info.dict)) && attempts < 50)
+				while (!STREAMING::HAS_NAMED_PTFX_ASSET_LOADED(Joaat(info.dict)) && attempts < 50)
 				{
 					ScriptMgr::Yield();
 					attempts++;
 				}
 
-				if (!STREAMING::HAS_NAMED_PTFX_ASSET_LOADED(rage::joaat(info.dict)))
+				if (!STREAMING::HAS_NAMED_PTFX_ASSET_LOADED(Joaat(info.dict)))
 				{
 					Notifications::Show("Particle Effects", "Failed to load particle effect!", NotificationType::Error);
 					return;
@@ -139,7 +139,7 @@ namespace YimMenu::Features
 
 				Notifications::Show("Particle Effects", std::format("Spawned {}!", g_ParticleEffects[(int)effectType].second), NotificationType::Success);
 
-				STREAMING::REMOVE_NAMED_PTFX_ASSET(rage::joaat(info.dict));
+				STREAMING::REMOVE_NAMED_PTFX_ASSET(Joaat(info.dict));
 			});
 		}
 	};
@@ -169,7 +169,7 @@ namespace YimMenu::Features
 
 			auto pos = ped.GetPosition();
 
-			if (STREAMING::HAS_NAMED_PTFX_ASSET_LOADED(rage::joaat(info.dict)))
+			if (STREAMING::HAS_NAMED_PTFX_ASSET_LOADED(Joaat(info.dict)))
 			{
 				GRAPHICS::USE_PARTICLE_FX_ASSET(info.dict);
 				GRAPHICS::START_NETWORKED_PARTICLE_FX_NON_LOOPED_AT_COORD(
@@ -182,7 +182,7 @@ namespace YimMenu::Features
 			}
 			else
 			{
-				STREAMING::REQUEST_NAMED_PTFX_ASSET(rage::joaat(info.dict));
+				STREAMING::REQUEST_NAMED_PTFX_ASSET(Joaat(info.dict));
 			}
 		}
 

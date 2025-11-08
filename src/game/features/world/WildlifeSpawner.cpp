@@ -125,7 +125,7 @@ namespace YimMenu::Features
 
 				AnimalType type = (AnimalType)_AnimalToSpawn.GetState();
 				const char* modelName = GetAnimalModel(type);
-				Hash model = rage::joaat(modelName);
+				Hash model = Joaat(modelName);
 
 				STREAMING::REQUEST_MODEL(model, false);
 				int attempts = 0;

@@ -28,25 +28,25 @@ namespace YimMenu::Features
 				static bool firstFreeze = true;
 				if (firstFreeze)
 				{
-					frozenHour = TIME::GET_CLOCK_HOURS();
-					frozenMinute = TIME::GET_CLOCK_MINUTES();
-					frozenSecond = TIME::GET_CLOCK_SECONDS();
+					frozenHour = CLOCK::GET_CLOCK_HOURS();
+					frozenMinute = CLOCK::GET_CLOCK_MINUTES();
+					frozenSecond = CLOCK::GET_CLOCK_SECONDS();
 					firstFreeze = false;
 				}
 
 				// Keep time frozen
-				TIME::SET_CLOCK_TIME(frozenHour, frozenMinute, frozenSecond);
-				TIME::PAUSE_CLOCK(true, 0);
+				CLOCK::SET_CLOCK_TIME(frozenHour, frozenMinute, frozenSecond);
+				CLOCK::PAUSE_CLOCK(true, 0);
 			}
 			else
 			{
-				TIME::PAUSE_CLOCK(false, 0);
+				CLOCK::PAUSE_CLOCK(false, 0);
 			}
 		}
 
 		virtual void OnDisable() override
 		{
-			TIME::PAUSE_CLOCK(false, 0);
+			CLOCK::PAUSE_CLOCK(false, 0);
 		}
 	};
 
@@ -61,7 +61,7 @@ namespace YimMenu::Features
 			int hour = _SetHour.GetState();
 			int minute = _SetMinute.GetState();
 
-			TIME::SET_CLOCK_TIME(hour, minute, 0);
+			CLOCK::SET_CLOCK_TIME(hour, minute, 0);
 
 			std::string timeStr = std::format("{:02d}:{:02d}", hour, minute);
 			Notifications::Show("Time Controller", std::format("Time set to {}", timeStr), NotificationType::Success);
@@ -77,7 +77,7 @@ namespace YimMenu::Features
 
 		virtual void OnCall() override
 		{
-			TIME::SET_CLOCK_TIME(6, 0, 0);
+			CLOCK::SET_CLOCK_TIME(6, 0, 0);
 			Notifications::Show("Time Controller", "Time set to Sunrise (06:00)", NotificationType::Success);
 		}
 	};
@@ -88,7 +88,7 @@ namespace YimMenu::Features
 
 		virtual void OnCall() override
 		{
-			TIME::SET_CLOCK_TIME(12, 0, 0);
+			CLOCK::SET_CLOCK_TIME(12, 0, 0);
 			Notifications::Show("Time Controller", "Time set to Noon (12:00)", NotificationType::Success);
 		}
 	};
@@ -99,7 +99,7 @@ namespace YimMenu::Features
 
 		virtual void OnCall() override
 		{
-			TIME::SET_CLOCK_TIME(18, 30, 0);
+			CLOCK::SET_CLOCK_TIME(18, 30, 0);
 			Notifications::Show("Time Controller", "Time set to Sunset (18:30)", NotificationType::Success);
 		}
 	};
@@ -110,7 +110,7 @@ namespace YimMenu::Features
 
 		virtual void OnCall() override
 		{
-			TIME::SET_CLOCK_TIME(0, 0, 0);
+			CLOCK::SET_CLOCK_TIME(0, 0, 0);
 			Notifications::Show("Time Controller", "Time set to Midnight (00:00)", NotificationType::Success);
 		}
 	};
