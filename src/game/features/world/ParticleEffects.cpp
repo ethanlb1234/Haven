@@ -30,7 +30,7 @@ namespace YimMenu::Features
 		TORCH_FIRE
 	};
 
-	static const std::pair<int, const char*> g_ParticleEffects[] = {
+	static const std::vector<std::pair<int, const char*>> g_ParticleEffects = {
 		{(int)ParticleEffect::FIRE, "Fire"},
 		{(int)ParticleEffect::SMOKE, "Smoke"},
 		{(int)ParticleEffect::SPARKS, "Sparks"},

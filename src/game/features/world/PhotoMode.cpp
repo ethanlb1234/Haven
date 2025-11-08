@@ -25,7 +25,7 @@ namespace YimMenu::Features
 		DRUNK
 	};
 
-	static const std::pair<int, const char*> g_PhotoFilters[] = {
+	static const std::vector<std::pair<int, const char*>> g_PhotoFilters = {
 		{(int)PhotoFilter::NONE, "No Filter"},
 		{(int)PhotoFilter::SEPIA, "Sepia (Old West)"},
 		{(int)PhotoFilter::NOIR, "Black & White"},

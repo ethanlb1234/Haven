@@ -43,7 +43,7 @@ namespace YimMenu::Features
 		FLAT_IRON_LAKE
 	};
 
-	static const std::pair<int, const char*> g_TeleportLocations[] = {
+	static const std::vector<std::pair<int, const char*>> g_TeleportLocations = {
 		{(int)TeleportLocation::VALENTINE, "Valentine"},
 		{(int)TeleportLocation::SAINT_DENIS, "Saint Denis"},
 		{(int)TeleportLocation::BLACKWATER, "Blackwater"},

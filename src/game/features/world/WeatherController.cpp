@@ -28,7 +28,7 @@ namespace YimMenu::Features
 		SANDSTORM
 	};
 
-	static const std::pair<int, const char*> g_WeatherTypes[] = {
+	static const std::vector<std::pair<int, const char*>> g_WeatherTypes = {
 		{(int)WeatherType::SUNNY, "Sunny"},
 		{(int)WeatherType::CLEAR, "Clear Sky"},
 		{(int)WeatherType::CLOUDS, "Clouds"},

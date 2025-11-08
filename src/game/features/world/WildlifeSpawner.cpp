@@ -36,7 +36,7 @@ namespace YimMenu::Features
 		LEGENDARY_MOOSE
 	};
 
-	static const std::pair<int, const char*> g_AnimalTypes[] = {
+	static const std::vector<std::pair<int, const char*>> g_AnimalTypes = {
 		{(int)AnimalType::BEAR, "Grizzly Bear"},
 		{(int)AnimalType::WOLF, "Wolf"},
 		{(int)AnimalType::COUGAR, "Cougar"},

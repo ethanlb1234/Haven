@@ -34,7 +34,7 @@ namespace YimMenu::Features
 		NORFOLK_ROADSTER
 	};
 
-	static const std::pair<int, const char*> g_HorseBreeds[] = {
+	static const std::vector<std::pair<int, const char*>> g_HorseBreeds = {
 		{(int)HorseBreed::ARABIAN_WHITE, "Arabian (White)"},
 		{(int)HorseBreed::ARABIAN_BLACK, "Arabian (Black)"},
 		{(int)HorseBreed::ARABIAN_ROSE_GREY, "Arabian (Rose Grey Bay)"},
