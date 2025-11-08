@@ -40,6 +40,11 @@ jobs:
           sed -i 's/cmake_minimum_required(VERSION 3)/cmake_minimum_required(VERSION 3.5)/g' build/_deps/rdr-classes-src/CMakeLists.txt
         fi
 
+        # Fix nlohmann/json old CMakeLists.txt (v3.11.2)
+        if [ -f "build/_deps/json-src/CMakeLists.txt" ]; then
+          sed -i 's/cmake_minimum_required(VERSION 3.1)/cmake_minimum_required(VERSION 3.5)/g' build/_deps/json-src/CMakeLists.txt
+        fi
+
     - name: Reconfigure CMake (after fixes)
       run: cmake -B build -DCMAKE_BUILD_TYPE=Release
 
