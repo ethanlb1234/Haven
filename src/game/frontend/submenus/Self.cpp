@@ -270,5 +270,73 @@ namespace YimMenu::Submenus
 		}));
 
 		AddCategory(std::move(animations));
+
+		// CREATIVE MODE - Ultimate peaceful and creative features
+		auto creative = std::make_shared<Category>("Creative");
+		auto visualsGroup = std::make_shared<Group>("Visual Effects");
+		auto particlesGroup = std::make_shared<Group>("Particle Effects");
+		auto playerEffectsGroup = std::make_shared<Group>("Player Effects");
+		auto worldGroup = std::make_shared<Group>("World Control");
+		auto companionsGroup = std::make_shared<Group>("Companions");
+
+		// Visual Effects & Filters
+		visualsGroup->AddItem(std::make_shared<BoolCommandItem>("visualfilterapplier"_J));
+		visualsGroup->AddItem(std::make_shared<ConditionalItem>("visualfilterapplier"_J, std::make_shared<ListCommandItem>("visualfilter"_J)));
+		visualsGroup->AddItem(std::make_shared<ImGuiItem>([] {
+			ImGui::TextWrapped("Choose from 10 cinematic filters: Sepia Western, Film Noir, Golden Hour, Dreamy, and more!");
+		}));
+		visualsGroup->AddItem(std::make_shared<BoolCommandItem>("customfov"_J));
+		visualsGroup->AddItem(std::make_shared<ConditionalItem>("customfov"_J, std::make_shared<FloatCommandItem>("customfovvalue"_J)));
+		visualsGroup->AddItem(std::make_shared<ImGuiItem>([] {
+			ImGui::TextWrapped("Adjust your camera FOV (30=zoomed, 90=wide, 120=fish eye) for epic screenshots!");
+		}));
+
+		// Particle Trails
+		particlesGroup->AddItem(std::make_shared<BoolCommandItem>("particletrails"_J));
+		particlesGroup->AddItem(std::make_shared<ConditionalItem>("particletrails"_J, std::make_shared<ListCommandItem>("particletrail"_J)));
+		particlesGroup->AddItem(std::make_shared<ImGuiItem>([] {
+			ImGui::TextWrapped("Leave magical trails: Butterflies, Fireflies, Sparkles, Fire, Snow, Flower Petals & more!");
+		}));
+
+		// Player Effects
+		playerEffectsGroup->AddItem(std::make_shared<BoolCommandItem>("playerscale"_J));
+		playerEffectsGroup->AddItem(std::make_shared<ConditionalItem>("playerscale"_J, std::make_shared<FloatCommandItem>("playerscalevalue"_J)));
+		playerEffectsGroup->AddItem(std::make_shared<ImGuiItem>([] {
+			ImGui::TextWrapped("Resize yourself! 0.2=tiny, 1.0=normal, 5.0=giant. See the world from new perspectives!");
+		}));
+		playerEffectsGroup->AddItem(std::make_shared<BoolCommandItem>("flaminglasso"_J));
+		playerEffectsGroup->AddItem(std::make_shared<ImGuiItem>([] {
+			ImGui::TextWrapped("Your lasso burns with fire! Super cool visual effect!");
+		}));
+
+		// World Control
+		worldGroup->AddItem(std::make_shared<BoolCommandItem>("slowmotion"_J));
+		worldGroup->AddItem(std::make_shared<ConditionalItem>("slowmotion"_J, std::make_shared<FloatCommandItem>("slowmotionspeed"_J)));
+		worldGroup->AddItem(std::make_shared<ImGuiItem>([] {
+			ImGui::TextWrapped("Cinematic slow motion! 0.1=super slow, 1.0=normal. Perfect for epic moments!");
+		}));
+		worldGroup->AddItem(std::make_shared<BoolCommandItem>("freezetime"_J));
+		worldGroup->AddItem(std::make_shared<ImGuiItem>([] {
+			ImGui::TextWrapped("Freeze time to hold perfect moments and explore at your own pace!");
+		}));
+		worldGroup->AddItem(std::make_shared<BoolCommandItem>("gravitymodifier"_J));
+		worldGroup->AddItem(std::make_shared<ConditionalItem>("gravitymodifier"_J, std::make_shared<ListCommandItem>("gravitymode"_J)));
+		worldGroup->AddItem(std::make_shared<ImGuiItem>([] {
+			ImGui::TextWrapped("Experience different gravity: Moon jumps, Zero-G, Reverse (fall up!), or Heavy!");
+		}));
+
+		// Companion Animals
+		companionsGroup->AddItem(std::make_shared<ListCommandItem>("companiontype"_J));
+		companionsGroup->AddItem(std::make_shared<CommandItem>("spawncompanion"_J));
+		companionsGroup->AddItem(std::make_shared<ImGuiItem>([] {
+			ImGui::TextWrapped("Spawn friendly animal companions: Dog, Wolf, Bear, Eagle, Deer & more! They'll follow you everywhere!");
+		}));
+
+		creative->AddItem(visualsGroup);
+		creative->AddItem(particlesGroup);
+		creative->AddItem(playerEffectsGroup);
+		creative->AddItem(worldGroup);
+		creative->AddItem(companionsGroup);
+		AddCategory(std::move(creative));
 	}
 }
