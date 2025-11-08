@@ -17,6 +17,7 @@ namespace YimMenu::Submenus
 		auto recovery               = std::make_shared<Category>("Recovery");
 		auto spawnCollectiblesGroup = std::make_shared<Group>("Spawn Collectibles");
 		auto spawnHerbsGroup		= std::make_shared<Group>("Spawn Herbs");
+		auto unlocksGroup           = std::make_shared<Group>("Unlocks");
 		auto recoveryOptions        = std::make_shared<Group>("Options");
 
 		static auto recoveryCommand = Commands::GetCommand<BoolCommand>("recoveryenabled"_J);
@@ -118,9 +119,19 @@ namespace YimMenu::Submenus
 				}
 			}
 		}));
+
+		// Unlock features for clothing and outlaw pass items
+		unlocksGroup->AddItem(std::make_shared<CommandItem>("unlockallclothing"_J));
+		unlocksGroup->AddItem(std::make_shared<CommandItem>("unlockoutlawpass"_J));
+		unlocksGroup->AddItem(std::make_shared<ImGuiItem>([] {
+			ImGui::TextWrapped("These unlocks give you access to story mode clothing and past outlaw pass items.");
+			ImGui::TextWrapped("Check your wardrobe and catalog after using!");
+		}));
+
 		recoveryOptions->AddItem(std::make_shared<BoolCommandItem>("unlimiteditems"_J));
 		recovery->AddItem(spawnCollectiblesGroup);
 		recovery->AddItem(spawnHerbsGroup);
+		recovery->AddItem(unlocksGroup);
 		recovery->AddItem(recoveryOptions);
 
 		AddCategory(std::move(recovery));

@@ -9,9 +9,8 @@
 
 #include "Player/Helpful.hpp"
 #include "Player/Info.hpp"
-#include "Player/Kick.hpp"
-#include "Player/Toxic.hpp"
-#include "Player/Trolling.hpp"
+// Removed offensive features: Kick, Toxic, Trolling
+// This menu is now focused on peaceful gameplay and creativity
 
 namespace YimMenu::Submenus
 {
@@ -120,9 +119,10 @@ namespace YimMenu::Submenus
 	{
 		AddCategory(std::move(BuildInfoMenu()));
 		AddCategory(std::move(BuildHelpfulMenu()));
-		AddCategory(std::move(BuildTrollingMenu()));
-		AddCategory(std::move(BuildToxicMenu()));
-		AddCategory(std::move(BuildKickMenu()));
+		// Removed offensive features for peaceful gameplay:
+		// - BuildTrollingMenu() - Cages, forced attachments
+		// - BuildToxicMenu() - Kill, explode, grief features
+		// - BuildKickMenu() - All kick methods
 
 		for (auto& category : m_Categories)
 			category->PrependItem(std::make_shared<ImGuiItem>([] {

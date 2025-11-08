@@ -84,6 +84,7 @@ namespace YimMenu::Submenus
         // Overlay
         overlay->AddItem(std::make_shared<BoolCommandItem>("overlay"_J));
         overlay->AddItem(std::make_shared<ConditionalItem>("overlay"_J, std::make_shared<BoolCommandItem>("overlayfps"_J)));
+        overlay->AddItem(std::make_shared<ConditionalItem>("overlay"_J, std::make_shared<BoolCommandItem>("overlayprotections"_J)));
 
         // Context Menu
         context->AddItem(std::make_shared<BoolCommandItem>("ctxmenu"_J));
@@ -97,6 +98,8 @@ namespace YimMenu::Submenus
         syncGroup->AddItem(std::make_shared<BoolCommandItem>("blockspectatesession"_J));
         syncGroup->AddItem(std::make_shared<BoolCommandItem>("blockattach"_J));
         syncGroup->AddItem(std::make_shared<BoolCommandItem>("blockvehflood"_J));
+        syncGroup->AddItem(std::make_shared<BoolCommandItem>("blockentityflood"_J));
+        syncGroup->AddItem(std::make_shared<BoolCommandItem>("blockeventflood"_J));
 
         // Network Event Group
         networkEventGroup->AddItem(std::make_shared<BoolCommandItem>("blockexplosions"_J));
