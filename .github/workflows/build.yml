@@ -30,22 +30,30 @@ jobs:
       shell: bash
       run: |
         # Find and fix ALL dependency CMakeLists.txt files with old cmake_minimum_required
-        # This catches any version < 3.5 and updates it, including bare "VERSION 3"
+        # Using simple patterns that work with all sed versions
 
         find build/_deps -name "CMakeLists.txt" -type f 2>/dev/null | while read file; do
           echo "Patching $file"
+          # Replace any cmake_minimum_required with version < 3.5 with version 3.5
+          # Handles: VERSION 2.x, VERSION 3, VERSION 3.0, VERSION 3.1, VERSION 3.2, VERSION 3.3, VERSION 3.4
           sed -i \
-            -e 's/cmake_minimum_required(\s*VERSION\s\+2\.[0-9]\+\(\.[0-9]\+\)\?\s*)/cmake_minimum_required(VERSION 3.5)/g' \
-            -e 's/cmake_minimum_required(\s*VERSION\s\+3\.0\s*)/cmake_minimum_required(VERSION 3.5)/g' \
-            -e 's/cmake_minimum_required(\s*VERSION\s\+3\.1\s*)/cmake_minimum_required(VERSION 3.5)/g' \
-            -e 's/cmake_minimum_required(\s*VERSION\s\+3\.2\s*)/cmake_minimum_required(VERSION 3.5)/g' \
-            -e 's/cmake_minimum_required(\s*VERSION\s\+3\.3\s*)/cmake_minimum_required(VERSION 3.5)/g' \
-            -e 's/cmake_minimum_required(\s*VERSION\s\+3\.4\s*)/cmake_minimum_required(VERSION 3.5)/g' \
-            -e 's/cmake_minimum_required(\s*VERSION\s\+3\s*)/cmake_minimum_required(VERSION 3.5)/g' \
+            -e 's/cmake_minimum_required(VERSION 2\.[0-9])/cmake_minimum_required(VERSION 3.5)/g' \
+            -e 's/cmake_minimum_required(VERSION 2\.[0-9]\.[0-9])/cmake_minimum_required(VERSION 3.5)/g' \
+            -e 's/cmake_minimum_required(VERSION 3)/cmake_minimum_required(VERSION 3.5)/g' \
+            -e 's/cmake_minimum_required(VERSION 3\.0)/cmake_minimum_required(VERSION 3.5)/g' \
+            -e 's/cmake_minimum_required(VERSION 3\.1)/cmake_minimum_required(VERSION 3.5)/g' \
+            -e 's/cmake_minimum_required(VERSION 3\.2)/cmake_minimum_required(VERSION 3.5)/g' \
+            -e 's/cmake_minimum_required(VERSION 3\.3)/cmake_minimum_required(VERSION 3.5)/g' \
+            -e 's/cmake_minimum_required(VERSION 3\.4)/cmake_minimum_required(VERSION 3.5)/g' \
             "$file"
+          echo "Patched: $(grep cmake_minimum_required "$file" | head -1)"
         done
 
-        echo "Patched all old CMakeLists.txt files in dependencies"
+        echo "=== Patching complete ==="
+        echo "Files patched:"
+        find build/_deps -name "CMakeLists.txt" -type f 2>/dev/null | while read file; do
+          echo "$file: $(grep cmake_minimum_required "$file" | head -1)"
+        done
 
     - name: Reconfigure CMake (after fixes - should succeed)
       run: cmake -B build -DCMAKE_BUILD_TYPE=Release
