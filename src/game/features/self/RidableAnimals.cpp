@@ -1,3 +1,8 @@
+// DISABLED: SET_PED_AS_MOUNT native doesn't exist in RDR2
+// Ref: scrCommand_dump_b1491.50 has TASK_MOUNT_ANIMAL but no SET_PED_AS_MOUNT
+// This feature cannot be implemented with current natives
+
+#if 0
 #include "core/commands/Command.hpp"
 #include "core/commands/ListCommand.hpp"
 #include "game/backend/FiberPool.hpp"
@@ -102,7 +107,7 @@ namespace YimMenu::Features
 				if (animal)
 				{
 					// Make it ridable like a horse
-					PED::SET_PED_AS_MOUNT(animal, true);
+					PED::SET_PED_AS_MOUNT(animal, true); // THIS NATIVE DOESN'T EXIST
 					PED::_SET_PED_PROMPT_NAME(animal, "Ridable Animal");
 
 					// Set flags to make it mountable
@@ -120,11 +125,8 @@ namespace YimMenu::Features
 					}
 					else
 					{
-						Notifications::Show("Ridable Animal", "Your ridable animal is ready! Mount it and explore!", NotificationType::Success);
+						Notifications::Show("Ridable Animal", "Approach the animal and press E to mount it!", NotificationType::Success);
 					}
-
-					// Scale up the animal to be ridable size
-					PED::_SET_PED_SCALE(animal, 1.5f);
 				}
 
 				STREAMING::SET_MODEL_AS_NO_LONGER_NEEDED(animalHash);
@@ -132,5 +134,6 @@ namespace YimMenu::Features
 		}
 	};
 
-	static SpawnRidableAnimal _SpawnRidableAnimal{"spawnridableanimal", "Spawn Ridable Animal", "Ride eagles through the sky or panthers across the land!"};
+	static SpawnRidableAnimal _SpawnRidableAnimal{"spawnridableanimal", "Spawn Ridable Animal", "Spawn an animal you can ride like a horse!"};
 }
+#endif

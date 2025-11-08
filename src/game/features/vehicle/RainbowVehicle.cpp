@@ -1,3 +1,8 @@
+// DISABLED: Vehicle custom color natives don't exist in RDR2
+// Ref: scrCommand_dump_b1491.50 has no SET_VEHICLE_CUSTOM_PRIMARY_COLOUR or CLEAR_VEHICLE_CUSTOM_PRIMARY_COLOUR
+// These are GTA5-only natives
+
+#if 0
 #include "core/commands/LoopedCommand.hpp"
 #include "game/backend/Self.hpp"
 #include "game/rdr/Natives.hpp"
@@ -60,3 +65,4 @@ namespace YimMenu::Features
 
 	static RainbowVehicle _RainbowVehicle{"rainbowvehicle", "Rainbow Vehicle", "Makes your vehicle cycle through rainbow colors!"};
 }
+#endif

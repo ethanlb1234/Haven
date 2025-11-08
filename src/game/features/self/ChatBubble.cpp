@@ -1,3 +1,8 @@
+// DISABLED: This feature uses GTA5-style HUD natives that don't exist in RDR2
+// RDR2 uses _BG_ prefixed natives which work differently
+// Ref: scrCommand_dump_b1491.50 only has _BG_SET_TEXT_SCALE, _BG_SET_TEXT_COLOR, etc.
+
+#if 0
 #include "core/commands/BoolCommand.hpp"
 #include "core/commands/LoopedCommand.hpp"
 #include "game/backend/FiberPool.hpp"
@@ -61,3 +66,4 @@ namespace YimMenu::Features
 		return g_ShowChatBubble;
 	}
 }
+#endif
