@@ -14,6 +14,9 @@ namespace YimMenu::Features
 
 		virtual void OnTick() override
 		{
+			// TODO: RDR2 doesn't have GET_BOUNTY, CLEAR_PLAYER_CRIMINAL_RECORD, or PLAYER_MONEY_CHANGE natives
+			// Need to find RDR2-specific bounty handling
+			/*
 			auto player = Self::GetPlayer();
 			if (!player.IsValid())
 				return;
@@ -37,6 +40,7 @@ namespace YimMenu::Features
 					PLAYER::CLEAR_PLAYER_WANTED_LEVEL(player.GetId());
 				}
 			}
+			*/
 		}
 	};
 

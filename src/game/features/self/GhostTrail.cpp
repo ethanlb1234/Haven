@@ -49,12 +49,12 @@ namespace YimMenu::Features
 				if (ghost)
 				{
 					// Make it look ghostly
-					ENTITY::SET_ENTITY_ALPHA(ghost, 100, false); // Semi-transparent
-					ENTITY::SET_ENTITY_COLLISION(ghost, false, false);
-					ENTITY::FREEZE_ENTITY_POSITION(ghost, true);
+					ENTITY::SET_ENTITY_ALPHA(ghost.GetHandle(), 100, false); // Semi-transparent
+					ENTITY::SET_ENTITY_COLLISION(ghost.GetHandle(), false, false);
+					ENTITY::FREEZE_ENTITY_POSITION(ghost.GetHandle(), true);
 
 					// Copy player's animation
-					TASK::TASK_STAND_STILL(ghost, -1);
+					TASK::TASK_STAND_STILL(ghost.GetHandle(), -1);
 
 					// Add to list
 					g_GhostClones.push_back({ghost, 150}); // 150 ticks = ~2.5 seconds
@@ -68,16 +68,17 @@ namespace YimMenu::Features
 
 				// Fade out over time
 				int alpha = (it->lifetime * 100) / 150;
-				if (ENTITY::DOES_ENTITY_EXIST(it->ped))
+				if (ENTITY::DOES_ENTITY_EXIST(it->ped.GetHandle()))
 				{
-					ENTITY::SET_ENTITY_ALPHA(it->ped, alpha, false);
+					ENTITY::SET_ENTITY_ALPHA(it->ped.GetHandle(), alpha, false);
 				}
 
 				if (it->lifetime <= 0)
 				{
-					if (ENTITY::DOES_ENTITY_EXIST(it->ped))
+					if (ENTITY::DOES_ENTITY_EXIST(it->ped.GetHandle()))
 					{
-						PED::DELETE_PED(&it->ped);
+						Ped tempPed = it->ped;
+						PED::DELETE_PED(&tempPed);
 					}
 					it = g_GhostClones.erase(it);
 				}
@@ -93,9 +94,10 @@ namespace YimMenu::Features
 			// Clean up all ghost clones
 			for (auto& ghost : g_GhostClones)
 			{
-				if (ENTITY::DOES_ENTITY_EXIST(ghost.ped))
+				if (ENTITY::DOES_ENTITY_EXIST(ghost.ped.GetHandle()))
 				{
-					PED::DELETE_PED(&ghost.ped);
+					Ped tempPed = ghost.ped;
+					PED::DELETE_PED(&tempPed);
 				}
 			}
 			g_GhostClones.clear();

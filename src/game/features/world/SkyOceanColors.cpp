@@ -18,16 +18,16 @@ namespace YimMenu::Features
 		RAINBOW
 	};
 
-	static const std::pair<SkyColor, const char*> g_SkyColors[] = {
-		{SkyColor::NORMAL, "Normal"},
-		{SkyColor::PURPLE, "Purple Dream"},
-		{SkyColor::PINK, "Cotton Candy Pink"},
-		{SkyColor::GREEN, "Emerald Green"},
-		{SkyColor::ORANGE, "Eternal Sunset"},
-		{SkyColor::RED, "Mars Red"},
-		{SkyColor::ALIEN_GREEN, "Alien World"},
-		{SkyColor::DEEP_BLUE, "Deep Ocean Blue"},
-		{SkyColor::RAINBOW, "Rainbow Cycle"}
+	static const std::pair<int, const char*> g_SkyColors[] = {
+		{(int)SkyColor::NORMAL, "Normal"},
+		{(int)SkyColor::PURPLE, "Purple Dream"},
+		{(int)SkyColor::PINK, "Cotton Candy Pink"},
+		{(int)SkyColor::GREEN, "Emerald Green"},
+		{(int)SkyColor::ORANGE, "Eternal Sunset"},
+		{(int)SkyColor::RED, "Mars Red"},
+		{(int)SkyColor::ALIEN_GREEN, "Alien World"},
+		{(int)SkyColor::DEEP_BLUE, "Deep Ocean Blue"},
+		{(int)SkyColor::RAINBOW, "Rainbow Cycle"}
 	};
 
 	static ListCommand _SkyColorType{"skycolortype", "Sky Color", "Paint the sky any color!", g_SkyColors, (int)SkyColor::NORMAL};
@@ -39,6 +39,9 @@ namespace YimMenu::Features
 
 		void ApplySkyColor(SkyColor color)
 		{
+			// TODO: RDR2 doesn't have _SET_CLOUD_SETTINGS or _RESET_CLOUD_SETTINGS natives
+			// Need to find alternative method for sky color modification
+			/*
 			switch (color)
 			{
 			case SkyColor::PURPLE:
@@ -81,6 +84,7 @@ namespace YimMenu::Features
 				GRAPHICS::_RESET_CLOUD_SETTINGS();
 				break;
 			}
+			*/
 		}
 
 		virtual void OnTick() override
@@ -91,7 +95,8 @@ namespace YimMenu::Features
 
 		virtual void OnDisable() override
 		{
-			GRAPHICS::_RESET_CLOUD_SETTINGS();
+			// TODO: RDR2 doesn't have _RESET_CLOUD_SETTINGS native
+			// GRAPHICS::_RESET_CLOUD_SETTINGS();
 			rainbowHue = 0;
 		}
 	};

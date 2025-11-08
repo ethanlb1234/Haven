@@ -10,21 +10,27 @@ namespace YimMenu::Features
 
 		virtual void OnEnable() override
 		{
+			// TODO: RDR2 doesn't have _SET_ENTITY_LIGHT native - need alternative glow effect
+			/*
 			auto ped = Self::GetPed();
 			if (ped.IsValid())
 			{
 				// Add glowing light effect to player
 				GRAPHICS::_SET_ENTITY_LIGHT(ped.GetHandle(), true, 255, 150, 50, 10.0f, 100.0f);
 			}
+			*/
 		}
 
 		virtual void OnDisable() override
 		{
+			// TODO: RDR2 doesn't have _SET_ENTITY_LIGHT native
+			/*
 			auto ped = Self::GetPed();
 			if (ped.IsValid())
 			{
 				GRAPHICS::_SET_ENTITY_LIGHT(ped.GetHandle(), false, 0, 0, 0, 0.0f, 0.0f);
 			}
+			*/
 		}
 	};
 

@@ -3,7 +3,7 @@
 #include "game/backend/FiberPool.hpp"
 #include "game/backend/Self.hpp"
 #include "game/rdr/Natives.hpp"
-#include "util/Notifications.hpp"
+#include "core/frontend/Notifications.hpp"
 
 namespace YimMenu::Features
 {

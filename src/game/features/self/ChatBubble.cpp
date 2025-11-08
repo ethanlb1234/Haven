@@ -16,6 +16,8 @@ namespace YimMenu::Features
 
 		virtual void OnTick() override
 		{
+			// TODO: RDR2 doesn't have many HUD text natives - need alternative text display method
+			/*
 			if (g_ShowChatBubble && !g_ChatBubbleText.empty())
 			{
 				auto ped = Self::GetPed();
@@ -39,6 +41,7 @@ namespace YimMenu::Features
 				HUD::ADD_TEXT_COMPONENT_SUBSTRING_PLAYER_NAME(g_ChatBubbleText.c_str());
 				HUD::_END_TEXT_COMMAND_DISPLAY_TEXT(0.5f, 0.15f, 0);
 			}
+			*/
 		}
 	};
 

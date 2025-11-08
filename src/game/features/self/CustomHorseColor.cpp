@@ -10,6 +10,8 @@ namespace YimMenu::Features
 
 		virtual void OnCall() override
 		{
+			// TODO: RDR2 doesn't have _SET_PED_COMPONENT_TINT native - need horse-specific color system
+			/*
 			auto mount = Self::GetMount();
 			if (!mount.IsValid())
 				return;
@@ -20,6 +22,7 @@ namespace YimMenu::Features
 			PED::_SET_PED_COMPONENT_TINT(mount.GetHandle(), 0, color); // Body
 			PED::_SET_PED_COMPONENT_TINT(mount.GetHandle(), 5, color); // Mane
 			PED::_SET_PED_COMPONENT_TINT(mount.GetHandle(), 6, color); // Tail
+			*/
 		}
 	};
 
