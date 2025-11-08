@@ -24,7 +24,7 @@ jobs:
       uses: ilammy/msvc-dev-cmd@v1
 
     - name: Configure CMake (will download dependencies)
-      run: cmake -B build -DCMAKE_BUILD_TYPE=Release
+      run: cmake -B build -DCMAKE_BUILD_TYPE=Release -DCMAKE_POLICY_VERSION_MINIMUM=3.5
       continue-on-error: true
 
     - name: Fix old dependency CMakeLists.txt files
@@ -46,7 +46,7 @@ jobs:
         echo "Patched all old CMakeLists.txt files in dependencies"
 
     - name: Reconfigure CMake (after fixes)
-      run: cmake -B build -DCMAKE_BUILD_TYPE=Release
+      run: cmake -B build -DCMAKE_BUILD_TYPE=Release -DCMAKE_POLICY_VERSION_MINIMUM=3.5
 
     - name: Build
       run: cmake --build build --config Release
