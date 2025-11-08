@@ -58,7 +58,7 @@ namespace YimMenu::Features
 		}
 	};
 
-	static OpenNearbyDoors _OpenNearbyDoors{"opennearby doors", "Open Nearby Doors", "Open all doors around you (banks, shops, locked areas)"};
+	static OpenNearbyDoors _OpenNearbyDoors{"opennearbydoors", "Open Nearby Doors", "Open all doors around you (banks, shops, locked areas)"};
 
 	class UnlockAllDoors : public Command
 	{
@@ -91,5 +91,5 @@ namespace YimMenu::Features
 		}
 	};
 
-	static UnlockAllDoors _UnlockAllDoors{"unlocalldoors", "Unlock All Doors", "Unlock banks, jails, and restricted areas"};
+	static UnlockAllDoors _UnlockAllDoors{"unlockalldoors", "Unlock All Doors", "Unlock banks, jails, and restricted areas"};
 }

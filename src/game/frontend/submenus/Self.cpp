@@ -294,6 +294,12 @@ namespace YimMenu::Submenus
 		visualsGroup->AddItem(std::make_shared<ImGuiItem>([] {
 			ImGui::TextWrapped("Adjust your camera FOV (30=zoomed, 90=wide, 120=fish eye) for epic screenshots!");
 		}));
+		visualsGroup->AddItem(std::make_shared<BoolCommandItem>("cinematicletterbox"_J));
+		visualsGroup->AddItem(std::make_shared<ConditionalItem>("cinematicletterbox"_J, std::make_shared<FloatCommandItem>("letterboxsize"_J)));
+		visualsGroup->AddItem(std::make_shared<BoolCommandItem>("hidehud"_J));
+		visualsGroup->AddItem(std::make_shared<ImGuiItem>([] {
+			ImGui::TextWrapped("Cinematic mode: Add movie-style letterbox bars & hide HUD for epic screenshots!");
+		}));
 
 		// Particle Trails
 		particlesGroup->AddItem(std::make_shared<BoolCommandItem>("particletrails"_J));
@@ -312,6 +318,20 @@ namespace YimMenu::Submenus
 		playerEffectsGroup->AddItem(std::make_shared<ImGuiItem>([] {
 			ImGui::TextWrapped("Your lasso burns with fire! Super cool visual effect!");
 		}));
+		playerEffectsGroup->AddItem(std::make_shared<BoolCommandItem>("ghosttrail"_J));
+		playerEffectsGroup->AddItem(std::make_shared<ImGuiItem>([] {
+			ImGui::TextWrapped("Leave holographic ghost clones behind as you move - super trippy!");
+		}));
+		playerEffectsGroup->AddItem(std::make_shared<BoolCommandItem>("telekinesis"_J));
+		playerEffectsGroup->AddItem(std::make_shared<ImGuiItem>([] {
+			ImGui::TextWrapped("Move objects with your mind! Hold E to grab, release to throw. Use Q/C to adjust distance, Left Shift to rotate!");
+		}));
+		playerEffectsGroup->AddItem(std::make_shared<IntCommandItem>("clonearmycount"_J));
+		playerEffectsGroup->AddItem(std::make_shared<CommandItem>("spawnclonearmy"_J));
+		playerEffectsGroup->AddItem(std::make_shared<CommandItem>("removeclonearmy"_J));
+		playerEffectsGroup->AddItem(std::make_shared<ImGuiItem>([] {
+			ImGui::TextWrapped("Create an army of yourself! Spawn 1-20 clones that follow you everywhere!");
+		}));
 
 		// World Control
 		worldGroup->AddItem(std::make_shared<BoolCommandItem>("slowmotion"_J));
@@ -327,6 +347,16 @@ namespace YimMenu::Submenus
 		worldGroup->AddItem(std::make_shared<ConditionalItem>("gravitymodifier"_J, std::make_shared<ListCommandItem>("gravitymode"_J)));
 		worldGroup->AddItem(std::make_shared<ImGuiItem>([] {
 			ImGui::TextWrapped("Experience different gravity: Moon jumps, Zero-G, Reverse (fall up!), or Heavy!");
+		}));
+		worldGroup->AddItem(std::make_shared<BoolCommandItem>("skycolorchanger"_J));
+		worldGroup->AddItem(std::make_shared<ConditionalItem>("skycolorchanger"_J, std::make_shared<ListCommandItem>("skycolortype"_J)));
+		worldGroup->AddItem(std::make_shared<ImGuiItem>([] {
+			ImGui::TextWrapped("Paint the sky incredible colors! Purple Dream, Cotton Candy Pink, Alien Green, Rainbow Cycle & more!");
+		}));
+		worldGroup->AddItem(std::make_shared<ListCommandItem>("fireworktype"_J));
+		worldGroup->AddItem(std::make_shared<CommandItem>("launchfireworks"_J));
+		worldGroup->AddItem(std::make_shared<ImGuiItem>([] {
+			ImGui::TextWrapped("Launch fireworks! Single burst, multi-shot, rainbow, fountain, or heart shape - celebrate in style!");
 		}));
 
 		// Companion Animals
@@ -378,10 +408,22 @@ namespace YimMenu::Submenus
 		peacefulGroup->AddItem(std::make_shared<ImGuiItem>([] {
 			ImGui::TextWrapped("Automatically remove or pay bounties - play in peace!");
 		}));
-		peacefulGroup->AddItem(std::make_shared<CommandItem>("opennearbydo ors"_J));
-		peacefulGroup->AddItem(std::make_shared<CommandItem>("unlockall doors"_J));
+		peacefulGroup->AddItem(std::make_shared<CommandItem>("opennearbydoors"_J));
+		peacefulGroup->AddItem(std::make_shared<CommandItem>("unlockalldoors"_J));
 		peacefulGroup->AddItem(std::make_shared<ImGuiItem>([] {
 			ImGui::TextWrapped("Open locked doors: banks, shops, stables - explore everywhere!");
+		}));
+		peacefulGroup->AddItem(std::make_shared<BoolCommandItem>("chatbubble"_J));
+		peacefulGroup->AddItem(std::make_shared<ImGuiItem>([] {
+			static char chatText[128] = "";
+			ImGui::InputText("Chat Message", chatText, sizeof(chatText));
+			if (ImGui::Button("Update Chat Bubble"))
+			{
+				// Will set the text - need to expose the setter function
+				extern std::string& GetChatBubbleText();
+				GetChatBubbleText() = chatText;
+			}
+			ImGui::TextWrapped("Type a message to display above your head! Perfect for peaceful communication!");
 		}));
 
 		creative->AddItem(visualsGroup);
