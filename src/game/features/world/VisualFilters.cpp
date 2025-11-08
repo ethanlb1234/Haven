@@ -20,7 +20,7 @@ namespace YimMenu::Features
 		COOL_NIGHT
 	};
 
-	static const std::pair<int, const char*> g_VisualFilters[] = {
+	static const std::vector<std::pair<int, const char*>> g_VisualFilters = {
 		{(int)VisualFilter::NONE, "None (Default)"},
 		{(int)VisualFilter::SEPIA_WESTERN, "Sepia Western"},
 		{(int)VisualFilter::VIBRANT, "Vibrant Colors"},

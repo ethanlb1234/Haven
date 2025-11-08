@@ -3,6 +3,7 @@
 #include "game/backend/Self.hpp"
 #include "game/rdr/Natives.hpp"
 #include "core/frontend/Notifications.hpp"
+#include "util/Joaat.hpp"
 
 namespace YimMenu::Features
 {
@@ -28,7 +29,7 @@ namespace YimMenu::Features
 						for (float z = -10.0f; z <= 10.0f; z += 5.0f)
 						{
 							Hash doorHash;
-							if (OBJECT::IS_DOOR_REGISTERED_WITH_SYSTEM(rage::joaat("door")))
+							if (OBJECT::IS_DOOR_REGISTERED_WITH_SYSTEM(Joaat("door")))
 							{
 								OBJECT::DOOR_SYSTEM_SET_DOOR_STATE(doorHash, 1); // 1 = Open
 								doorsOpened++;

@@ -7,6 +7,7 @@
 #include "game/backend/Self.hpp"
 #include "game/rdr/Natives.hpp"
 #include "core/frontend/Notifications.hpp"
+#include "util/Joaat.hpp"
 #include <vector>
 
 namespace YimMenu::Features
@@ -25,7 +26,7 @@ namespace YimMenu::Features
 		STRUCTURES
 	};
 
-	static const std::pair<int, const char*> g_ObjectCategories[] = {
+	static const std::vector<std::pair<int, const char*>> g_ObjectCategories = {
 		{(int)ObjectCategory::TENTS_SHELTERS, "Tents & Shelters (10 items)"},
 		{(int)ObjectCategory::FURNITURE, "Furniture (23 items)"},
 		{(int)ObjectCategory::STORAGE, "Storage (19 items)"},
@@ -213,7 +214,7 @@ namespace YimMenu::Features
 
 				auto category = (ObjectCategory)_BuildCategory.GetState();
 				const char* modelName = GetObjectModel(category, 0);
-				Hash model = rage::joaat(modelName);
+				Hash model = Joaat(modelName);
 
 				STREAMING::REQUEST_MODEL(model, false);
 				while (!STREAMING::HAS_MODEL_LOADED(model))
@@ -225,11 +226,11 @@ namespace YimMenu::Features
 
 				Object obj = OBJECT::CREATE_OBJECT(model, pos.x, pos.y, pos.z, true, true, false, false, false);
 
-				if (obj)
+				if (obj.IsValid())
 				{
-					ENTITY::SET_ENTITY_HEADING(obj, g_ObjectRotation);
+					ENTITY::SET_ENTITY_HEADING(obj.GetHandle(), g_ObjectRotation);
 					// Note: RDR2 doesn't have object scaling native
-					ENTITY::FREEZE_ENTITY_POSITION(obj, true);
+					ENTITY::FREEZE_ENTITY_POSITION(obj.GetHandle(), true);
 
 					PlacedObject placed;
 					placed.handle = obj;
@@ -257,9 +258,9 @@ namespace YimMenu::Features
 		{
 			for (auto& obj : g_PlacedObjects)
 			{
-				if (ENTITY::DOES_ENTITY_EXIST(obj.handle))
+				if (ENTITY::DOES_ENTITY_EXIST(obj.handle.GetHandle()))
 				{
-					OBJECT::DELETE_OBJECT(&obj.handle);
+					OBJECT::DELETE_OBJECT(obj.handle.GetHandle());
 				}
 			}
 			g_PlacedObjects.clear();

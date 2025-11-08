@@ -18,7 +18,7 @@ namespace YimMenu::Features
 		RAINBOW
 	};
 
-	static const std::pair<int, const char*> g_SkyColors[] = {
+	static const std::vector<std::pair<int, const char*>> g_SkyColors = {
 		{(int)SkyColor::NORMAL, "Normal"},
 		{(int)SkyColor::PURPLE, "Purple Dream"},
 		{(int)SkyColor::PINK, "Cotton Candy Pink"},

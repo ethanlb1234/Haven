@@ -25,7 +25,8 @@ namespace YimMenu::Features
 				Teleport::TeleportPlayerToCoords(Self::GetPlayer(), guarmaPos);
 
 				// Load the area
-				STREAMING::_LOAD_SCENARIO_BLOCKING(guarmaPos.x, guarmaPos.y, guarmaPos.z, 100.0f, 0);
+				// Note: _LOAD_SCENARIO_BLOCKING might not exist in RDR2
+				// STREAMING::_LOAD_SCENARIO_BLOCKING(guarmaPos.x, guarmaPos.y, guarmaPos.z, 100.0f, 0);
 
 				Notifications::Show("Guarma", "Welcome to the restricted island! Explore freely!", NotificationType::Success);
 			});
@@ -50,7 +51,8 @@ namespace YimMenu::Features
 
 				Teleport::TeleportPlayerToCoords(Self::GetPlayer(), sisikaPos);
 
-				STREAMING::_LOAD_SCENARIO_BLOCKING(sisikaPos.x, sisikaPos.y, sisikaPos.z, 100.0f, 0);
+				// Note: _LOAD_SCENARIO_BLOCKING might not exist in RDR2
+				// STREAMING::_LOAD_SCENARIO_BLOCKING(sisikaPos.x, sisikaPos.y, sisikaPos.z, 100.0f, 0);
 
 				Notifications::Show("Sisika Penitentiary", "Explore the prison island!", NotificationType::Success);
 			});

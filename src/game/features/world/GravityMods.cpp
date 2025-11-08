@@ -16,7 +16,7 @@ namespace YimMenu::Features
 		HEAVY
 	};
 
-	static const std::pair<int, const char*> g_GravityModes[] = {
+	static const std::vector<std::pair<int, const char*>> g_GravityModes = {
 		{(int)GravityMode::NORMAL, "Normal (1.0x)"},
 		{(int)GravityMode::LOW, "Low (0.5x)"},
 		{(int)GravityMode::VERY_LOW, "Very Low (0.25x)"},

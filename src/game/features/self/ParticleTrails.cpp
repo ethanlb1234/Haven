@@ -19,7 +19,7 @@ namespace YimMenu::Features
 		SMOKE_TRAIL
 	};
 
-	static const std::pair<int, const char*> g_ParticleTrails[] = {
+	static const std::vector<std::pair<int, const char*>> g_ParticleTrails = {
 		{(int)ParticleTrailType::NONE, "None"},
 		{(int)ParticleTrailType::BUTTERFLIES, "Butterflies"},
 		{(int)ParticleTrailType::FIREFLIES, "Fireflies"},

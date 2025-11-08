@@ -46,7 +46,7 @@ namespace YimMenu::Features
 				// Create ghost clone
 				Ped ghost = PED::CREATE_PED(playerModel, pos.x, pos.y, pos.z, heading, false, false, false, false);
 
-				if (ghost)
+				if (ghost.IsValid())
 				{
 					// Make it look ghostly
 					ENTITY::SET_ENTITY_ALPHA(ghost.GetHandle(), 100, false); // Semi-transparent
@@ -77,8 +77,7 @@ namespace YimMenu::Features
 				{
 					if (ENTITY::DOES_ENTITY_EXIST(it->ped.GetHandle()))
 					{
-						Ped tempPed = it->ped;
-						PED::DELETE_PED(&tempPed);
+						PED::DELETE_PED(it->ped.GetHandle());
 					}
 					it = g_GhostClones.erase(it);
 				}
@@ -96,8 +95,7 @@ namespace YimMenu::Features
 			{
 				if (ENTITY::DOES_ENTITY_EXIST(ghost.ped.GetHandle()))
 				{
-					Ped tempPed = ghost.ped;
-					PED::DELETE_PED(&tempPed);
+					PED::DELETE_PED(ghost.ped.GetHandle());
 				}
 			}
 			g_GhostClones.clear();
