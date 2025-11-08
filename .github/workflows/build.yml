@@ -23,8 +23,25 @@ jobs:
     - name: Setup MSVC
       uses: ilammy/msvc-dev-cmd@v1
 
-    - name: Configure CMake
-      run: cmake -B build -DCMAKE_BUILD_TYPE=Release -DCMAKE_POLICY_VERSION_MINIMUM=3.5
+    - name: Configure CMake (will download dependencies)
+      run: cmake -B build -DCMAKE_BUILD_TYPE=Release
+      continue-on-error: true
+
+    - name: Fix old dependency CMakeLists.txt files
+      shell: bash
+      run: |
+        # Fix Vulkan-Headers old CMakeLists.txt (sdk-1.1.108 from 2018)
+        if [ -f "build/_deps/vulkan-src/CMakeLists.txt" ]; then
+          sed -i 's/cmake_minimum_required(VERSION 2.8.11)/cmake_minimum_required(VERSION 3.5)/g' build/_deps/vulkan-src/CMakeLists.txt
+        fi
+
+        # Fix RDR-Classes old CMakeLists.txt
+        if [ -f "build/_deps/rdr-classes-src/CMakeLists.txt" ]; then
+          sed -i 's/cmake_minimum_required(VERSION 3)/cmake_minimum_required(VERSION 3.5)/g' build/_deps/rdr-classes-src/CMakeLists.txt
+        fi
+
+    - name: Reconfigure CMake (after fixes)
+      run: cmake -B build -DCMAKE_BUILD_TYPE=Release
 
     - name: Build
       run: cmake --build build --config Release
