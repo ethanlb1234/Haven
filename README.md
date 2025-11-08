@@ -1,7 +1,5 @@
 # 🌅 HAVEN - A Peaceful Creative Sanctuary for RDR2
 
-![HAVEN Banner](https://i.ibb.co/BKcR3Bfb/Git-Hub-Ban.png)
-
 **HAVEN** (Harmonious Adventure & Visual Expression Network) is a **completely free, peaceful alternative** to expensive mod menus like Fortitude ($50). Built on [YimMenu's HorseMenu](https://github.com/YimMenu/HorseMenu), HAVEN transforms RDR2 into a creative sandbox where players can express themselves, build settlements, and explore the world in entirely new ways.
 
 > *"Red Dead Redemption 2 should be accessible to everyone who wants to use it as a peaceful creative outlet - not just those who can afford expensive menus."*
