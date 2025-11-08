@@ -23,50 +23,7 @@ jobs:
     - name: Setup MSVC
       uses: ilammy/msvc-dev-cmd@v1
 
-    - name: Download dependencies (will fail but that's OK)
-      continue-on-error: true
-      run: cmake -B build -DCMAKE_BUILD_TYPE=Release
-
-    - name: Patch all old CMakeLists.txt files
-      shell: bash
-      run: |
-        echo "=== Checking what was downloaded ==="
-        ls -la build/_deps/ || echo "No _deps directory found"
-
-        echo ""
-        echo "=== Searching for CMakeLists.txt files to patch ==="
-
-        find build/_deps -name "CMakeLists.txt" -type f 2>/dev/null || echo "No CMakeLists.txt files found"
-
-        echo ""
-        echo "=== Patching files ==="
-
-        for file in build/_deps/*/CMakeLists.txt build/_deps/*/*/CMakeLists.txt; do
-          if [ -f "$file" ]; then
-            echo "Found: $file"
-            echo "  Before: $(head -n 1 "$file")"
-
-            # Patch the file
-            sed -i \
-              -e 's/cmake_minimum_required(VERSION 2\.[0-9])/cmake_minimum_required(VERSION 3.5)/g' \
-              -e 's/cmake_minimum_required(VERSION 2\.[0-9]\.[0-9])/cmake_minimum_required(VERSION 3.5)/g' \
-              -e 's/cmake_minimum_required(VERSION 2\.[0-9]\.[0-9]\.[0-9])/cmake_minimum_required(VERSION 3.5)/g' \
-              -e 's/cmake_minimum_required(VERSION 3)/cmake_minimum_required(VERSION 3.5)/g' \
-              -e 's/cmake_minimum_required(VERSION 3\.0)/cmake_minimum_required(VERSION 3.5)/g' \
-              -e 's/cmake_minimum_required(VERSION 3\.1)/cmake_minimum_required(VERSION 3.5)/g' \
-              -e 's/cmake_minimum_required(VERSION 3\.2)/cmake_minimum_required(VERSION 3.5)/g' \
-              -e 's/cmake_minimum_required(VERSION 3\.3)/cmake_minimum_required(VERSION 3.5)/g' \
-              -e 's/cmake_minimum_required(VERSION 3\.4)/cmake_minimum_required(VERSION 3.5)/g' \
-              "$file" 2>/dev/null || true
-
-            echo "  After:  $(head -n 1 "$file")"
-            echo ""
-          fi
-        done
-
-        echo "=== Patching complete ==="
-
-    - name: Configure CMake (should succeed now)
+    - name: Configure CMake
       run: cmake -B build -DCMAKE_BUILD_TYPE=Release
 
     - name: Build
