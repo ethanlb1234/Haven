@@ -30,20 +30,20 @@ jobs:
     - name: Fix old dependency CMakeLists.txt files
       shell: bash
       run: |
-        # Fix Vulkan-Headers old CMakeLists.txt (sdk-1.1.108 from 2018)
-        if [ -f "build/_deps/vulkan-src/CMakeLists.txt" ]; then
-          sed -i 's/cmake_minimum_required(VERSION 2.8.11)/cmake_minimum_required(VERSION 3.5)/g' build/_deps/vulkan-src/CMakeLists.txt
-        fi
+        # Find and fix ALL dependency CMakeLists.txt files with old cmake_minimum_required
+        # This catches any version < 3.5 and updates it
 
-        # Fix RDR-Classes old CMakeLists.txt
-        if [ -f "build/_deps/rdr-classes-src/CMakeLists.txt" ]; then
-          sed -i 's/cmake_minimum_required(VERSION 3)/cmake_minimum_required(VERSION 3.5)/g' build/_deps/rdr-classes-src/CMakeLists.txt
-        fi
+        find build/_deps -name "CMakeLists.txt" -type f -exec sed -i \
+          -e 's/cmake_minimum_required(VERSION 2\.[0-9]\+\(\.[0-9]\+\)\?)/cmake_minimum_required(VERSION 3.5)/g' \
+          -e 's/cmake_minimum_required(VERSION 3\.0)/cmake_minimum_required(VERSION 3.5)/g' \
+          -e 's/cmake_minimum_required(VERSION 3\.1)/cmake_minimum_required(VERSION 3.5)/g' \
+          -e 's/cmake_minimum_required(VERSION 3\.2)/cmake_minimum_required(VERSION 3.5)/g' \
+          -e 's/cmake_minimum_required(VERSION 3\.3)/cmake_minimum_required(VERSION 3.5)/g' \
+          -e 's/cmake_minimum_required(VERSION 3\.4)/cmake_minimum_required(VERSION 3.5)/g' \
+          -e 's/cmake_minimum_required(VERSION 3)/cmake_minimum_required(VERSION 3.5)/g' \
+          {} \;
 
-        # Fix nlohmann/json old CMakeLists.txt (v3.11.2)
-        if [ -f "build/_deps/json-src/CMakeLists.txt" ]; then
-          sed -i 's/cmake_minimum_required(VERSION 3.1)/cmake_minimum_required(VERSION 3.5)/g' build/_deps/json-src/CMakeLists.txt
-        fi
+        echo "Patched all old CMakeLists.txt files in dependencies"
 
     - name: Reconfigure CMake (after fixes)
       run: cmake -B build -DCMAKE_BUILD_TYPE=Release
