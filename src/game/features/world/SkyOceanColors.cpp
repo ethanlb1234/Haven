@@ -1,6 +1,7 @@
 #include "core/commands/ListCommand.hpp"
 #include "core/commands/LoopedCommand.hpp"
 #include "game/rdr/Natives.hpp"
+#include <cmath>
 
 namespace YimMenu::Features
 {

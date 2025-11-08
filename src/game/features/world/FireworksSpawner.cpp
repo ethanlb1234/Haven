@@ -4,6 +4,7 @@
 #include "game/backend/Self.hpp"
 #include "game/rdr/Natives.hpp"
 #include "util/Notifications.hpp"
+#include <cmath>
 
 namespace YimMenu::Features
 {
@@ -97,7 +98,7 @@ namespace YimMenu::Features
 					for (int i = 0; i < 7; i++)
 					{
 						rage::fvector3 rainbowPos = pos;
-						float angle = (i * 51.4f); // 360/7
+						float angle = (i * 51.4f) * (3.14159f / 180.0f); // Convert degrees to radians
 						rainbowPos.x += cos(angle) * 10.0f;
 						rainbowPos.y += sin(angle) * 10.0f;
 						SpawnFireworkBurst(rainbowPos, colors[i][0], colors[i][1], colors[i][2]);
