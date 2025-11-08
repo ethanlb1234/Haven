@@ -102,8 +102,8 @@ namespace YimMenu::Features
 
 				if (animal.IsValid())
 				{
-					// Make it ridable like a horse
-					// Note: SET_PED_AS_MOUNT doesn't exist in RDR2, using alternative approach
+					// Make it ridable like a horse using proper RDR2 native
+					PED::_SET_PED_AS_TEMP_PLAYER_HORSE(animal.GetHandle());
 					PED::_SET_PED_PROMPT_NAME(animal.GetHandle(), "Ridable Animal");
 
 					// Set flags to make it mountable
