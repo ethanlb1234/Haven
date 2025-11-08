@@ -188,8 +188,9 @@ namespace
 			Notifications::Show("Protections", std::format("Blocked {} from {}", crash, name), NotificationType::Warning);
 
 			// Record in protection stats
-			if (source.GetHandle() && source.GetHandle()->m_PlayerInfo)
-				ProtectionStats::RecordBlock(source.GetHandle()->m_PlayerInfo->m_GamerInfo->m_PeerId.m_Value, crash);
+			// TODO: CPlayerInfo is incomplete type - need to find proper include or alternative method
+			// if (source.GetHandle() && source.GetHandle()->m_PlayerInfo)
+			// 	ProtectionStats::RecordBlock(source.GetHandle()->m_PlayerInfo->m_GamerInfo->m_PeerId.m_Value, crash);
 		}
 	}
 
